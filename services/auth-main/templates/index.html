@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pariman Global Consulting | Service Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-blue: #1B3A6B;
+            --brand-gold: #C99A3B;
+            --brand-green: #3FAE56;
+            --bg: #F4F6FB;
+            --text: #1A202C;
+            --text-muted: #64748b;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; color: var(--text); }
+        
+        /* Header */
+        .header { background: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo-section { display: flex; align-items: center; gap: 15px; }
+        
+        /* Logo Styling */
+        .logo-img { height: 50px; width: auto; object-fit: contain; }
+        .brand-name { font-weight: 800; font-size: 22px; color: var(--brand-blue); letter-spacing: -0.5px; }
+        
+        /* Dashboard Grid */
+        .container { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
+        .welcome { margin-bottom: 40px; text-align: center; }
+        .welcome h1 { color: var(--brand-blue); font-size: 32px; margin-bottom: 10px; }
+        .welcome p { color: var(--text-muted); font-size: 18px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        
+        /* Service Cards */
+        .card { 
+            background: white; border-radius: 20px; padding: 40px 30px; 
+            text-align: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            border: 1px solid #e2e8f0; text-decoration: none; color: inherit;
+            display: flex; flex-direction: column; align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card:not(.disabled):hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); 
+            border-color: var(--brand-gold); 
+        }
+
+        .card.disabled { opacity: 0.7; cursor: default; background: #fafafa; }
+        
+        .card-icon { font-size: 60px; margin-bottom: 20px; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); }
+        .card-title { font-size: 20px; font-weight: 700; color: var(--brand-blue); margin-bottom: 12px; }
+        .card-desc { font-size: 15px; color: var(--text-muted); line-height: 1.6; flex-grow: 1; }
+        
+        /* Badges */
+        .badge { margin-top: 20px; padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+        .badge-live { background: #d1fae5; color: #065f46; border: 1px solid #34d399; }
+        .badge-soon { background: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
+        
+        @media (max-width: 768px) { .header { padding: 15px 20px; } .brand-name { display: none; } }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="logo-section">
+        <!-- 
+           LOGO INSTRUCTIONS: 
+           1. Put your logo file in services/auth-main/static/images/logo.png
+           2. If you don't have the file yet, the text "Pariman Global Consulting" will show
+        -->
+        <img src="/static/images/logo.jpeg" alt="Pariman Logo" class="logo-img" onerror="this.style.display='none'">
+        <div class="brand-name">Pariman Global Consulting</div>
+    </div>
+    <div class="user-menu">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <div style="text-align:right">
+                <div style="font-weight: 700; font-size: 14px; color: var(--brand-blue)">{{ user_name }}</div>
+                <div style="font-size: 11px; color: var(--brand-green)">Authorized Access</div>
+            </div>
+            <div style="width:35px; height:35px; border-radius:50%; background:var(--brand-blue); color:white; display:flex; align-items:center; justify-content:center; font-weight:700">A</div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="welcome">
+        <h1>Welcome to the Unified Portal</h1>
+        <p>Access your Pariman Global Consulting financial services from one place.</p>
+    </div>
+
+    <div class="grid">
+        <!-- 1. ITR Service Card -->
+        <a href="/itr/" class="card">
+            <div class="card-icon">📊</div>
+            <div class="card-title">ITR Management</div>
+            <div class="card-desc">Income Tax Return filing, status tracking, and digital document vault for FY 2024-25.</div>
+            <span class="badge badge-live">● Live</span>
+        </a>
+
+        <!-- 2. Policy Service Card -->
+        <a href="/policy/" class="card">
+            <div class="card-icon">🛡️</div>
+            <div class="card-title">Policy Manager</div>
+            <div class="card-desc">Manage office policies, compliance certificates, and employee acknowledgments.</div>
+            <span class="badge badge-live">● Live</span>
+        </a>
+
+        <!-- 3. Client Onboarding Card (COMING SOON) -->
+        <div class="card disabled">
+            <div class="card-icon">🤝</div>
+            <div class="card-title">Client Onboarding</div>
+            <div class="card-desc">Digital KYC and streamlined registration for new individual and corporate clients.</div>
+            <span class="badge badge-soon">Coming Soon</span>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

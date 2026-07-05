@@ -1,0 +1,2146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pariman Global Consulting Consulting — ITR Management</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --brand-blue:#1B3A6B;
+  --brand-blue-dark:#122747;
+  --brand-blue-light:#2E5C9E;
+  --brand-green:#3FAE56;
+  --brand-green-dark:#2E8442;
+  --brand-gold:#C99A3B;
+  --brand-gold-light:#E2B85C;
+  --bg:#F4F6FB;
+  --surface:#FFFFFF;
+  --surface-2:#F8FAFC;
+  --border:#E2E8F0;
+  --text:#1A202C;
+  --text-muted:#64748B;
+  --text-light:#94A3B8;
+  --danger:#DC2626;
+  --warning:#F59E0B;
+  --success:#10B981;
+  --shadow-sm:0 1px 2px rgba(15,23,42,.06);
+  --shadow:0 4px 12px rgba(15,23,42,.08);
+  --shadow-lg:0 12px 32px rgba(15,23,42,.12);
+  --radius:10px;
+  --radius-lg:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:'Inter','Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-size:14px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- LOGO (recreated as SVG) ---------- */
+.logo-svg{display:block}
+.brand-text{font-weight:800;color:var(--brand-blue);letter-spacing:-.5px}
+.brand-tagline{color:var(--brand-gold);font-style:italic;font-size:11px;font-weight:600;letter-spacing:.3px}
+
+/* ---------- LOGIN ---------- */
+.login-wrap{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#1B3A6B 0%,#2E5C9E 50%,#3FAE56 100%);
+  padding:20px;position:relative;overflow:hidden;
+}
+.login-wrap::before{
+  content:"";position:absolute;width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,154,59,.25),transparent 70%);
+  top:-200px;right:-200px;
+}
+.login-wrap::after{
+  content:"";position:absolute;width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(63,174,86,.2),transparent 70%);
+  bottom:-150px;left:-150px;
+}
+.login-card{
+  background:#fff;border-radius:20px;padding:48px 44px;width:100%;max-width:440px;
+  box-shadow:0 25px 60px rgba(0,0,0,.25);position:relative;z-index:1;
+}
+.login-logo{display:flex;flex-direction:column;align-items:center;margin-bottom:28px}
+.login-logo .name{font-size:22px;margin-top:14px}
+.login-logo .sub{font-size:11px;margin-top:2px}
+.login-title{font-size:18px;font-weight:700;text-align:center;color:var(--text);margin-bottom:6px}
+.login-sub{font-size:13px;text-align:center;color:var(--text-muted);margin-bottom:24px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.form-input,.form-select,.form-textarea{
+  width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;
+  font-size:14px;font-family:inherit;background:#fff;color:var(--text);
+  transition:all .15s;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{
+  outline:none;border-color:var(--brand-blue);box-shadow:0 0 0 3px rgba(27,58,107,.1);
+}
+.form-textarea{resize:vertical;min-height:80px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:10px 18px;border:none;border-radius:8px;font-size:14px;font-weight:600;
+  cursor:pointer;transition:all .15s;text-decoration:none;font-family:inherit;
+}
+.btn-primary{background:var(--brand-blue);color:#fff}
+.btn-primary:hover{background:var(--brand-blue-dark)}
+.btn-success{background:var(--brand-green);color:#fff}
+.btn-success:hover{background:var(--brand-green-dark)}
+.btn-warning{background:var(--brand-gold);color:#fff}
+.btn-warning:hover{background:#B0832D}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-danger:hover{background:#B91C1C}
+.btn-secondary{background:#fff;color:var(--text);border:1.5px solid var(--border)}
+.btn-secondary:hover{background:var(--surface-2);border-color:var(--text-muted)}
+.btn-sm{padding:6px 12px;font-size:12px}
+.btn-icon{padding:7px 9px;font-size:12px}
+.btn-block{width:100%}
+.btn-login{padding:13px;font-size:15px;background:linear-gradient(135deg,var(--brand-blue),var(--brand-blue-light));margin-top:8px}
+.login-hint{
+  margin-top:18px;padding:10px 12px;background:var(--surface-2);border-radius:8px;
+  font-size:11px;color:var(--text-muted);text-align:center;line-height:1.6;
+}
+.login-hint code{background:#fff;padding:2px 6px;border-radius:4px;border:1px solid var(--border);font-family:'JetBrains Mono',monospace;color:var(--brand-blue);font-weight:600}
+
+/* ---------- APP LAYOUT ---------- */
+.app{display:flex;min-height:100vh}
+.sidebar{
+  width:260px;background:linear-gradient(180deg,var(--brand-blue-dark) 0%,var(--brand-blue) 100%);
+  color:#fff;display:flex;flex-direction:column;flex-shrink:0;
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.sidebar-brand{padding:24px 20px 20px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;align-items:center;text-align:center}
+.sidebar-brand .name{color:#fff;font-size:16px;margin-top:10px;font-weight:800;letter-spacing:-.3px}
+.sidebar-brand .sub{color:var(--brand-gold-light);font-size:10px;margin-top:2px;font-style:italic;font-weight:600}
+.sidebar-user{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:10px}
+.user-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--brand-gold),var(--brand-green));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:14px}
+.user-info{flex:1;min-width:0}
+.user-name{font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-role{font-size:10px;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.5px}
+.sidebar-nav{flex:1;padding:14px 10px;overflow-y:auto}
+.nav-section-title{font-size:10px;text-transform:uppercase;color:rgba(255,255,255,.45);letter-spacing:1px;padding:14px 12px 6px;font-weight:700}
+.nav-item{
+  display:flex;align-items:center;gap:12px;padding:10px 14px;color:rgba(255,255,255,.85);
+  border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;margin-bottom:2px;
+  transition:all .15s;border-left:3px solid transparent;
+}
+.nav-item:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav-item.active{background:rgba(255,255,255,.12);color:#fff;border-left-color:var(--brand-gold)}
+.nav-icon{width:18px;height:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:15px}
+.sidebar-footer{padding:16px;border-top:1px solid rgba(255,255,255,.1)}
+
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.topbar{
+  background:#fff;padding:14px 28px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:10;
+}
+.topbar-title{font-size:18px;font-weight:700;color:var(--text)}
+.topbar-breadcrumb{font-size:12px;color:var(--text-muted);margin-top:2px}
+.topbar-actions{display:flex;gap:8px;align-items:center}
+.storage-indicator{font-size:11px;color:var(--text-muted);background:var(--surface-2);padding:4px 10px;border-radius:6px;border:1px solid var(--border)}
+
+.content{padding:24px 28px;flex:1}
+
+/* ---------- DASHBOARD ---------- */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
+.kpi-card{
+  background:#fff;border-radius:var(--radius-lg);padding:20px;border:1px solid var(--border);
+  box-shadow:var(--shadow-sm);position:relative;overflow:hidden;
+}
+.kpi-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--brand-blue),var(--brand-green));
+}
+.kpi-card.gold::before{background:linear-gradient(90deg,var(--brand-gold),var(--brand-gold-light))}
+.kpi-card.green::before{background:linear-gradient(90deg,var(--brand-green),var(--brand-green-dark))}
+.kpi-card.red::before{background:linear-gradient(90deg,#DC2626,#F87171)}
+.kpi-label{font-size:11px;text-transform:uppercase;color:var(--text-muted);letter-spacing:.8px;font-weight:600;margin-bottom:8px}
+.kpi-value{font-size:32px;font-weight:800;color:var(--text);letter-spacing:-1px;line-height:1}
+.kpi-trend{font-size:12px;margin-top:8px;color:var(--text-muted)}
+.kpi-trend strong{color:var(--brand-green);font-weight:700}
+
+.chart-grid{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:24px}
+@media(max-width:1100px){.chart-grid{grid-template-columns:1fr}}
+.card{
+  background:#fff;border-radius:var(--radius-lg);padding:20px;border:1px solid var(--border);
+  box-shadow:var(--shadow-sm);
+}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card-title{font-size:15px;font-weight:700;color:var(--text)}
+.card-sub{font-size:12px;color:var(--text-muted);margin-top:2px}
+.chart-container{position:relative;height:280px}
+.chart-container-sm{position:relative;height:240px}
+
+/* ---------- TABLES ---------- */
+.table-wrap{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow-sm)}
+.table-toolbar{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.toolbar-left{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.toolbar-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.search-input{padding:8px 12px 8px 34px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 10px center;width:240px}
+.search-input:focus{outline:none;border-color:var(--brand-blue)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead{background:var(--surface-2)}
+th{
+  padding:12px 14px;text-align:left;font-size:11px;font-weight:700;
+  color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;
+  border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;
+}
+th:hover{background:#EEF2F7;color:var(--text)}
+th.sort-asc::after{content:" ▲";color:var(--brand-blue);font-size:10px}
+th.sort-desc::after{content:" ▼";color:var(--brand-blue);font-size:10px}
+td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+tbody tr:hover{background:var(--surface-2)}
+tbody tr:last-child td{border-bottom:none}
+.empty-state{padding:50px 20px;text-align:center;color:var(--text-muted)}
+.empty-state-icon{font-size:48px;margin-bottom:12px;opacity:.5}
+
+/* ---------- BADGES ---------- */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:600;letter-spacing:.2px}
+.badge-success{background:#D1FAE5;color:#065F46}
+.badge-warning{background:#FEF3C7;color:#92400E}
+.badge-danger{background:#FEE2E2;color:#991B1B}
+.badge-info{background:#DBEAFE;color:#1E40AF}
+.badge-neutral{background:#F1F5F9;color:#475569}
+.badge-gold{background:#FEF3C7;color:#92400E}
+
+/* ---------- MODAL ---------- */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;
+  align-items:center;justify-content:center;z-index:100;padding:20px;backdrop-filter:blur(2px);
+}
+.modal-overlay.active{display:flex}
+.modal{
+  background:#fff;border-radius:var(--radius-lg);max-width:600px;width:100%;max-height:90vh;
+  overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow-lg);
+  animation:modalIn .2s ease-out;
+}
+.modal-lg{max-width:900px}
+@keyframes modalIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+.modal-header{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.modal-title{font-size:16px;font-weight:700;color:var(--text)}
+.modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-muted);width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{background:var(--surface-2);color:var(--text)}
+.modal-body{padding:22px;overflow-y:auto;flex:1}
+.modal-footer{padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px;background:var(--surface-2)}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-grid .full{grid-column:1/-1}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}}
+
+/* ---------- TOAST ---------- */
+.toast-wrap{position:fixed;top:20px;right:20px;z-index:200;display:flex;flex-direction:column;gap:10px}
+.toast{
+  background:#fff;padding:14px 18px;border-radius:10px;box-shadow:var(--shadow-lg);
+  border-left:4px solid var(--brand-blue);font-size:13px;font-weight:500;min-width:280px;max-width:380px;
+  animation:slideIn .25s ease-out;
+}
+.toast.success{border-left-color:var(--brand-green)}
+.toast.error{border-left-color:var(--danger)}
+.toast.warning{border-left-color:var(--brand-gold)}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+
+/* ---------- TABS ---------- */
+.tabs{display:flex;gap:2px;border-bottom:2px solid var(--border);margin-bottom:20px;overflow-x:auto}
+.tab{padding:10px 16px;border:none;background:none;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;font-family:inherit}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--brand-blue);border-bottom-color:var(--brand-blue)}
+
+/* ---------- MISC ---------- */
+.checkbox-cell{text-align:center}
+.checkbox-cell input{width:18px;height:18px;cursor:pointer;accent-color:var(--brand-green)}
+.actions-cell{white-space:nowrap;text-align:right}
+.actions-cell .btn{margin-left:4px}
+
+.year-pill{display:inline-block;padding:3px 10px;border-radius:6px;background:var(--surface-2);font-size:11px;font-weight:700;color:var(--brand-blue);margin-right:4px;margin-bottom:4px;border:1px solid var(--border);cursor:pointer}
+.year-pill.has-file{background:#D1FAE5;color:#065F46;border-color:#A7F3D0}
+.year-pill.locked{background:#FEF3C7;color:#92400E;border-color:#FDE68A}
+.year-pill:hover{transform:translateY(-1px)}
+
+.alert{padding:12px 14px;border-radius:8px;font-size:13px;margin-bottom:14px;border:1px solid;line-height:1.55}
+.alert-info{background:#EFF6FF;color:#1E40AF;border-color:#BFDBFE}
+.alert-warning{background:#FFFBEB;color:#92400E;border-color:#FDE68A}
+
+/* ---------- PRINT ---------- */
+@media print{
+  .sidebar,.topbar,.table-toolbar,.no-print{display:none !important}
+  .app{display:block}
+  .main{display:block}
+  .content{padding:0}
+  .card,.table-wrap{box-shadow:none;border:1px solid #ccc}
+  body{background:#fff;font-size:12px}
+  .print-header{display:flex !important;align-items:center;gap:16px;padding-bottom:14px;border-bottom:2px solid var(--brand-blue);margin-bottom:18px}
+  .print-header .brand-text{font-size:20px}
+  table{font-size:11px}
+  th,td{padding:6px 8px}
+}
+.print-header{display:none}
+
+@media(max-width:850px){
+  .sidebar{width:220px}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .topbar{padding:12px 16px}
+  .content{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== LOGIN ===================== -->
+<div id="loginScreen" class="login-wrap">
+  <div class="login-card">
+    <div class="login-logo">
+      <div id="loginLogoSvg"></div>
+      <div class="brand-text name">Pariman Global Consulting Consulting</div>
+      <div class="brand-tagline sub">Growth, Governance, Global Standards</div>
+    </div>
+    <div class="login-title">ITR Management System</div>
+    <div class="login-sub">Sign in to access your dashboard</div>
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="loginUser" class="form-input" autocomplete="username" required>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPass" class="form-input" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block btn-login">Sign In</button>
+    </form>
+    <div class="login-hint">
+      First time? Default admin login —<br>
+      User: <code>admin</code> &nbsp; Password: <code>admin123</code>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== APP ===================== -->
+<div id="app" class="app" style="display:none">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div id="sidebarLogo"></div>
+      <div class="name">Pariman Global Consulting</div>
+      <div class="sub">Growth · Governance · Global Standards</div>
+    </div>
+    <div class="sidebar-user">
+      <div class="user-avatar" id="userAvatar">A</div>
+      <div class="user-info">
+        <div class="user-name" id="userName">Admin</div>
+        <div class="user-role" id="userRole">Administrator</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav"></nav>
+    <div class="sidebar-footer">
+      <button class="btn btn-secondary btn-block" onclick="logout()" style="background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.15)">↩  Logout</button>
+    </div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="pageTitle">Dashboard</div>
+        <div class="topbar-breadcrumb" id="pageBreadcrumb">Home</div>
+      </div>
+      <div class="topbar-actions">
+        <div class="storage-indicator" id="storageIndicator">Storage: 0 MB / 10 GB</div>
+      </div>
+    </div>
+    <div class="content" id="pageContent"></div>
+  </main>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<!-- Toasts -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+/* ============================================================
+   Pariman Global Consulting CONSULTING — ITR MANAGEMENT SYSTEM
+   Single-file HTML app with localStorage + IndexedDB persistence.
+   Download this file and open in any browser — your data stays
+   in your browser. Backups: use Admin > Backup to export JSON.
+   ============================================================ */
+
+/* ---------- LOGO (recreated SVG inspired by the brand mark) ---------- */
+const LOGO_SVG = `<svg class="logo-svg" width="84" height="84" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1B3A6B"/>
+      <stop offset="100%" stop-color="#2E5C9E"/>
+    </linearGradient>
+    <linearGradient id="grnGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2E8442"/>
+      <stop offset="100%" stop-color="#56C46E"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#B0832D"/>
+      <stop offset="100%" stop-color="#E2B85C"/>
+    </linearGradient>
+  </defs>
+  <!-- Circle background -->
+  <circle cx="100" cy="100" r="92" fill="url(#bgGrad)"/>
+  <!-- Green arrow (left curving up) -->
+  <path d="M 50 130 Q 50 70 110 60 L 105 50 L 130 65 L 115 88 L 110 78 Q 70 85 70 130 Z" fill="url(#grnGrad)" opacity="0.95"/>
+  <!-- Gold arrow (bottom curving) -->
+  <path d="M 150 90 Q 150 150 90 158 L 95 168 L 70 153 L 85 130 L 90 140 Q 130 132 130 90 Z" fill="url(#goldGrad)" opacity="0.95"/>
+  <!-- Blue arrow up -->
+  <path d="M 135 145 L 135 60 L 120 60 L 142 35 L 165 60 L 150 60 L 150 145 Z" fill="#3FAE56" opacity="0.9"/>
+  <!-- Letter P -->
+  <g transform="translate(70,55)">
+    <path d="M 0 90 L 0 0 L 35 0 Q 60 0 60 25 Q 60 50 35 50 L 18 50 L 18 90 Z" fill="#E2B85C"/>
+    <path d="M 18 14 L 18 36 L 32 36 Q 42 36 42 25 Q 42 14 32 14 Z" fill="url(#bgGrad)"/>
+  </g>
+</svg>`;
+
+/* ---------- STORAGE ABSTRACTION (server-synced via Postgres) ---------- */
+const KV = {
+  _cache: {},
+  _loaded: false,
+  async preload(){
+    try{
+      const res = await fetch('/api/kv');
+      const data = await res.json();
+      this._cache = data || {};
+    }catch(e){ /* offline fallback: keep whatever is in _cache/localStorage */ }
+    this._loaded = true;
+  },
+  get(k, def=null){
+    if(k in this._cache) return this._cache[k];
+    try{const v=localStorage.getItem('pgc:'+k);return v===null?def:JSON.parse(v)}catch(e){return def}
+  },
+  set(k, v){
+    this._cache[k] = v;
+    try{localStorage.setItem('pgc:'+k, JSON.stringify(v));}catch(e){}
+    fetch('/api/kv/'+encodeURIComponent(k), {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({value:v})
+    }).catch(()=>toast('Could not sync to server (offline?)','error'));
+    return true;
+  },
+  del(k){
+    delete this._cache[k];
+    localStorage.removeItem('pgc:'+k);
+    fetch('/api/kv/'+encodeURIComponent(k), {method:'DELETE'}).catch(()=>{});
+  },
+  size(){
+    let total=0;
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k && k.startsWith('pgc:')) total += (localStorage.getItem(k)||'').length;
+    }
+    return total;
+  }
+};
+
+/* ---------- SERVER-BACKED FILE STORAGE ---------- */
+const FileDB = {
+  TOTAL_QUOTA: 1 * 1024 * 1024 * 1024, // 1 GB practical quota on free Postgres tier
+  MAX_FILE: 5 * 1024 * 1024, // 5 MB
+  async _blobToBase64(blob){
+    return new Promise((res,rej)=>{
+      const r = new FileReader();
+      r.onload = () => res(r.result.split(',')[1]);
+      r.onerror = rej;
+      r.readAsDataURL(blob);
+    });
+  },
+  async save(key, blob, meta){
+    if(blob.size > this.MAX_FILE) throw new Error('File exceeds 5 MB limit');
+    const used = await this.usedBytes();
+    if(used + blob.size > this.TOTAL_QUOTA) throw new Error('Storage quota exceeded');
+    const b64 = await this._blobToBase64(blob);
+    const res = await fetch('/api/files/'+encodeURIComponent(key), {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({data:b64, meta})
+    });
+    if(!res.ok){ const e = await res.json().catch(()=>({})); throw new Error(e.error||'Upload failed'); }
+    return true;
+  },
+  async get(key){
+    const res = await fetch('/api/files/'+encodeURIComponent(key));
+    if(!res.ok) return null;
+    return await res.blob();
+  },
+  async getMeta(key){
+    const res = await fetch('/api/files/'+encodeURIComponent(key)+'/meta');
+    if(!res.ok) return null;
+    return await res.json();
+  },
+  async del(key){
+    await fetch('/api/files/'+encodeURIComponent(key), {method:'DELETE'});
+    return true;
+  },
+  async usedBytes(){
+    try{
+      const res = await fetch('/api/files-usage');
+      const data = await res.json();
+      return data.usedBytes || 0;
+    }catch(e){ return 0; }
+  }
+};
+
+/* ---------- AUTH ---------- */
+function initData(){
+  if(!KV.get('users')){
+    KV.set('users', [{
+      id:'admin', username:'admin', password:'admin123', name:'Administrator', role:'admin', active:true, created:new Date().toISOString()
+    }]);
+  }
+  if(!KV.get('clients')) KV.set('clients', []);
+  if(!KV.get('allocations')) KV.set('allocations', {}); // {clientId: staffId}
+  if(!KV.get('inward')) KV.set('inward', {});           // {clientId: {received,date,remarks}}
+  if(!KV.get('itrStatus')) KV.set('itrStatus', {});     // {clientId: {fy: {status,pendingWith,fileDate,itrSet,casePaperClosed,locked}}}
+  if(!KV.get('seq')) KV.set('seq', {client:0, staff:0});
+}
+function currentUser(){return KV.get('session')}
+function isAdmin(){return currentUser()?.role==='admin'}
+function handleLogin(e){
+  e.preventDefault();
+  const u = document.getElementById('loginUser').value.trim().toLowerCase();
+  const p = document.getElementById('loginPass').value;
+  const user = (KV.get('users')||[]).find(x=>x.username.toLowerCase()===u && x.password===p && x.active);
+  if(!user){toast('Invalid credentials or account disabled','error');return}
+  KV.set('session', {id:user.id, username:user.username, name:user.name, role:user.role});
+  bootApp();
+}
+function logout(){
+  KV.del('session');
+  document.getElementById('app').style.display='none';
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('loginUser').value='';
+  document.getElementById('loginPass').value='';
+}
+
+/* ---------- TOAST ---------- */
+function toast(msg, type='info'){
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.textContent = msg;
+  wrap.appendChild(el);
+  setTimeout(()=>{el.style.transition='opacity .25s';el.style.opacity='0';setTimeout(()=>el.remove(),300)},2800);
+}
+
+/* ---------- MODAL ---------- */
+function openModal(html, large=false){
+  const m = document.getElementById('modalContent');
+  m.className = 'modal' + (large?' modal-lg':'');
+  m.innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('active');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('active')}
+
+/* ---------- ESCAPE ---------- */
+const esc = s => String(s??'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+
+/* ---------- FORMAT ---------- */
+const fmtDate = d => d ? new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) : '—';
+const fmtBytes = b => b<1024?b+' B': b<1048576?(b/1024).toFixed(1)+' KB': b<1073741824?(b/1048576).toFixed(1)+' MB':(b/1073741824).toFixed(2)+' GB';
+
+/* ---------- FINANCIAL YEARS ---------- */
+function getFYList(){
+  const list = ['2022-23','2023-24','2024-25','2025-26'];
+  const now = new Date();
+  const cy = now.getMonth() >= 3 ? now.getFullYear() : now.getFullYear()-1;
+  for(let y=2026; y<=cy; y++) {
+    const fy = `${y}-${String(y+1).slice(-2)}`;
+    if(!list.includes(fy)) list.push(fy);
+  }
+  return list;
+}
+
+/* ---------- NAVIGATION ---------- */
+const ADMIN_MENU = [
+  {section:'Overview'},
+  {id:'dashboard', label:'Dashboard', icon:'⊞'},
+  {section:'Masters'},
+  {id:'clients', label:'Client Master', icon:'👥'},
+  {id:'staff', label:'Staff Master', icon:'⚙'},
+  {id:'allocate', label:'Client Allocation', icon:'↔'},
+  {section:'Operations'},
+  {id:'inward', label:'Data Inward', icon:'📥'},
+  {id:'itr-status', label:'ITR Status', icon:'📝'},
+  {id:'itr-upload', label:'ITR Upload', icon:'📤'},
+  {id:'itr-set', label:'ITR Set Locker', icon:'🔒'},
+  {section:'Reports'},
+  {id:'rpt-received', label:'Data Received', icon:'📋'},
+  {id:'rpt-pending', label:'Data Pending', icon:'⏱'},
+  {id:'rpt-not-completed', label:'Received · Not Done', icon:'📂'},
+  {id:'rpt-completed', label:'ITR Completed', icon:'✓'},
+  {id:'rpt-itr-report', label:'ITR Report', icon:'📊'},
+  {id:'rpt-staff', label:'Staff-wise Report', icon:'👤'},
+  {section:'System'},
+  {id:'backup', label:'Backup & Restore', icon:'💾'},
+];
+const STAFF_MENU = [
+  {section:'Overview'},
+  {id:'dashboard', label:'My Dashboard', icon:'⊞'},
+  {section:'My Work'},
+  {id:'my-clients', label:'My Clients', icon:'👥'},
+  {id:'my-inward', label:'Data Inward Status', icon:'📥'},
+  {id:'my-status', label:'Update ITR Status', icon:'📝'},
+  {section:'Reports'},
+  {id:'rpt-not-completed', label:'Received · Not Done', icon:'📂'},
+  {id:'rpt-completed', label:'ITR Completed', icon:'✓'},
+  {id:'rpt-itr-report', label:'ITR Report', icon:'📊'},
+];
+
+function renderSidebar(){
+  const menu = isAdmin() ? ADMIN_MENU : STAFF_MENU;
+  const html = menu.map(m=>{
+    if(m.section) return `<div class="nav-section-title">${esc(m.section)}</div>`;
+    return `<div class="nav-item" data-page="${m.id}" onclick="navigate('${m.id}')"><span class="nav-icon">${m.icon}</span><span>${esc(m.label)}</span></div>`;
+  }).join('');
+  document.getElementById('sidebarNav').innerHTML = html;
+}
+
+let currentPage = 'dashboard';
+function navigate(page){
+  currentPage = page;
+  document.querySelectorAll('.nav-item').forEach(el=>{
+    el.classList.toggle('active', el.dataset.page===page);
+  });
+  const menu = isAdmin() ? ADMIN_MENU : STAFF_MENU;
+  const item = menu.find(m=>m.id===page);
+  document.getElementById('pageTitle').textContent = item?.label || 'Page';
+  document.getElementById('pageBreadcrumb').textContent = (isAdmin()?'Admin':'Staff') + ' · ' + (item?.label||'');
+  const fn = ROUTES[page];
+  document.getElementById('pageContent').innerHTML = fn ? fn() : '<div class="card"><div class="empty-state">Page not found</div></div>';
+  // post-render hook
+  if(POST_RENDER[page]) POST_RENDER[page]();
+  window.scrollTo(0,0);
+  updateStorageIndicator();
+}
+
+/* ---------- TABLE SORTING ---------- */
+function attachSort(tableId){
+  const t = document.getElementById(tableId); if(!t) return;
+  t.querySelectorAll('thead th[data-sort]').forEach(th=>{
+    th.onclick = ()=>{
+      const key = th.dataset.sort;
+      const cur = th.classList.contains('sort-asc') ? 'asc' : th.classList.contains('sort-desc') ? 'desc' : null;
+      t.querySelectorAll('thead th').forEach(h=>h.classList.remove('sort-asc','sort-desc'));
+      const dir = cur==='asc' ? 'desc' : 'asc';
+      th.classList.add('sort-'+dir);
+      const tbody = t.querySelector('tbody');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      rows.sort((a,b)=>{
+        const av = a.querySelector(`[data-val="${key}"]`)?.dataset.sortval ?? a.querySelector(`[data-val="${key}"]`)?.textContent ?? '';
+        const bv = b.querySelector(`[data-val="${key}"]`)?.dataset.sortval ?? b.querySelector(`[data-val="${key}"]`)?.textContent ?? '';
+        const an = parseFloat(av), bn = parseFloat(bv);
+        let cmp;
+        if(!isNaN(an) && !isNaN(bn)) cmp = an - bn;
+        else cmp = String(av).localeCompare(String(bv), undefined, {numeric:true, sensitivity:'base'});
+        return dir==='asc' ? cmp : -cmp;
+      });
+      rows.forEach(r=>tbody.appendChild(r));
+    };
+  });
+}
+
+/* ---------- SEARCH FILTER ---------- */
+function attachSearch(inputId, tableId){
+  const inp = document.getElementById(inputId); if(!inp) return;
+  inp.oninput = ()=>{
+    const q = inp.value.trim().toLowerCase();
+    document.querySelectorAll(`#${tableId} tbody tr`).forEach(r=>{
+      r.style.display = !q || r.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+  };
+}
+
+/* ===================================================================
+   ROUTES — page renderers
+   =================================================================== */
+const ROUTES = {};
+const POST_RENDER = {};
+
+/* ---------- DASHBOARD ---------- */
+ROUTES.dashboard = () => {
+  const clients = KV.get('clients')||[];
+  const users = KV.get('users')||[];
+  const inward = KV.get('inward')||{};
+  const status = KV.get('itrStatus')||{};
+  const allocations = KV.get('allocations')||{};
+  const me = currentUser();
+  const fy = getFYList().slice(-1)[0];
+
+  let myClients = clients;
+  if(!isAdmin()){
+    myClients = clients.filter(c => allocations[c.id]===me.id);
+  }
+
+  const totalClients = myClients.length;
+  const dataReceived = myClients.filter(c=>inward[c.id]?.received).length;
+  const dataPending = totalClients - dataReceived;
+  const completed = myClients.filter(c=>status[c.id]?.[fy]?.status==='Complete').length;
+  const wip = myClients.filter(c=>status[c.id]?.[fy]?.status==='WIP').length;
+  const pending = myClients.filter(c=>{const s=status[c.id]?.[fy]?.status;return !s||s==='Pending'}).length;
+  const itrSet = myClients.filter(c=>status[c.id]?.[fy]?.itrSet==='Yes').length;
+  const caseClosed = myClients.filter(c=>status[c.id]?.[fy]?.casePaperClosed==='Yes').length;
+  const staffCount = users.filter(u=>u.role==='staff' && u.active).length;
+
+  const kpis = isAdmin() ? [
+    {label:'Total Clients', value:totalClients, cls:''},
+    {label:'Active Staff', value:staffCount, cls:'gold'},
+    {label:'Data Received', value:dataReceived, cls:'green', sub:`${dataPending} pending`},
+    {label:`Completed (FY ${fy})`, value:completed, cls:'green'},
+    {label:'WIP', value:wip, cls:'gold'},
+    {label:'Pending', value:pending, cls:'red'},
+  ] : [
+    {label:'My Clients', value:totalClients, cls:''},
+    {label:'Data Received', value:dataReceived, cls:'green'},
+    {label:'Data Pending', value:dataPending, cls:'red'},
+    {label:`Completed (FY ${fy})`, value:completed, cls:'green'},
+    {label:'WIP', value:wip, cls:'gold'},
+    {label:'ITR Set Ready', value:itrSet, cls:'gold'},
+  ];
+
+  return `
+    <div class="kpi-grid">
+      ${kpis.map(k=>`
+        <div class="kpi-card ${k.cls}">
+          <div class="kpi-label">${esc(k.label)}</div>
+          <div class="kpi-value">${k.value}</div>
+          ${k.sub?`<div class="kpi-trend">${esc(k.sub)}</div>`:''}
+        </div>
+      `).join('')}
+    </div>
+    <div class="chart-grid">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">ITR Status Overview · FY ${fy}</div>
+            <div class="card-sub">Current financial year breakdown</div>
+          </div>
+        </div>
+        <div class="chart-container"><canvas id="statusChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Data Inward</div>
+            <div class="card-sub">Received vs Pending</div>
+          </div>
+        </div>
+        <div class="chart-container-sm"><canvas id="inwardChart"></canvas></div>
+      </div>
+    </div>
+    ${isAdmin() ? `
+    <div class="chart-grid" style="grid-template-columns:1fr 1fr">
+      <div class="card">
+        <div class="card-header">
+          <div><div class="card-title">Year-wise Completion</div><div class="card-sub">ITR completed across financial years</div></div>
+        </div>
+        <div class="chart-container-sm"><canvas id="yearChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div><div class="card-title">Staff Performance</div><div class="card-sub">Completed ITRs · FY ${fy}</div></div>
+        </div>
+        <div class="chart-container-sm"><canvas id="staffChart"></canvas></div>
+      </div>
+    </div>` : ''}
+  `;
+};
+POST_RENDER.dashboard = () => {
+  const clients = KV.get('clients')||[];
+  const inward = KV.get('inward')||{};
+  const status = KV.get('itrStatus')||{};
+  const users = KV.get('users')||[];
+  const allocations = KV.get('allocations')||{};
+  const me = currentUser();
+  const fy = getFYList().slice(-1)[0];
+
+  let myClients = clients;
+  if(!isAdmin()) myClients = clients.filter(c => allocations[c.id]===me.id);
+
+  const completed = myClients.filter(c=>status[c.id]?.[fy]?.status==='Complete').length;
+  const wip = myClients.filter(c=>status[c.id]?.[fy]?.status==='WIP').length;
+  const pending = myClients.filter(c=>{const s=status[c.id]?.[fy]?.status;return !s||s==='Pending'}).length;
+  const dataReceived = myClients.filter(c=>inward[c.id]?.received).length;
+  const dataPending = myClients.length - dataReceived;
+
+  new Chart(document.getElementById('statusChart'), {
+    type:'doughnut',
+    data:{labels:['Completed','WIP','Pending'], datasets:[{data:[completed,wip,pending], backgroundColor:['#3FAE56','#C99A3B','#DC2626'], borderWidth:0}]},
+    options:{responsive:true, maintainAspectRatio:false, cutout:'68%', plugins:{legend:{position:'bottom', labels:{boxWidth:12,font:{size:12,weight:'600'}}}}}
+  });
+
+  new Chart(document.getElementById('inwardChart'), {
+    type:'bar',
+    data:{labels:['Received','Pending'], datasets:[{data:[dataReceived,dataPending], backgroundColor:['#3FAE56','#DC2626'], borderRadius:6}]},
+    options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, ticks:{precision:0}}}}
+  });
+
+  if(isAdmin()){
+    const fys = getFYList();
+    const yearData = fys.map(f => clients.filter(c=>status[c.id]?.[f]?.status==='Complete').length);
+    new Chart(document.getElementById('yearChart'), {
+      type:'line',
+      data:{labels:fys, datasets:[{label:'Completed', data:yearData, borderColor:'#1B3A6B', backgroundColor:'rgba(27,58,107,.1)', fill:true, tension:.35, pointBackgroundColor:'#C99A3B', pointBorderColor:'#fff', pointRadius:5, pointBorderWidth:2}]},
+      options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, ticks:{precision:0}}}}
+    });
+    const staffList = users.filter(u=>u.role==='staff');
+    const sData = staffList.map(s => clients.filter(c=>allocations[c.id]===s.id && status[c.id]?.[fy]?.status==='Complete').length);
+    new Chart(document.getElementById('staffChart'), {
+      type:'bar',
+      data:{labels:staffList.map(s=>s.name), datasets:[{label:'Completed', data:sData, backgroundColor:'#3FAE56', borderRadius:6}]},
+      options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, ticks:{precision:0}}}, indexAxis: staffList.length>5?'y':'x'}
+    });
+  }
+};
+
+/* ---------- CLIENT MASTER ---------- */
+ROUTES.clients = () => {
+  if(!isAdmin()) return adminOnly();
+  const clients = KV.get('clients')||[];
+  return `
+    <div class="table-wrap">
+      <div class="table-toolbar">
+        <div class="toolbar-left">
+          <input id="clientSearch" class="search-input" placeholder="Search clients…">
+          <span class="badge badge-info">${clients.length} clients</span>
+        </div>
+        <div class="toolbar-right">
+          <button class="btn btn-secondary btn-sm" onclick="downloadClientTemplate()">⤓ Template</button>
+          <button class="btn btn-warning btn-sm" onclick="importClientsExcel()">📥 Import Excel</button>
+          <button class="btn btn-primary btn-sm" onclick="openClientForm()">+ Add Client</button>
+        </div>
+      </div>
+      <table id="clientTable">
+        <thead>
+          <tr>
+            <th data-sort="sn" style="width:60px">SN</th>
+            <th data-sort="fileNo">File No</th>
+            <th data-sort="name">Client Name</th>
+            <th data-sort="mobile">Mobile</th>
+            <th data-sort="email">Email</th>
+            <th data-sort="group">Group</th>
+            <th class="actions-cell">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${clients.length===0
+            ? `<tr><td colspan="7"><div class="empty-state"><div class="empty-state-icon">👥</div><div>No clients yet. Add your first client or import from Excel.</div></div></td></tr>`
+            : clients.map((c,i)=>`
+              <tr>
+                <td data-val="sn">${i+1}</td>
+                <td data-val="fileNo"><strong>${esc(c.fileNo)}</strong></td>
+                <td data-val="name">${esc(c.name)}</td>
+                <td data-val="mobile">${esc(c.mobile)}</td>
+                <td data-val="email">${esc(c.email)}</td>
+                <td data-val="group">${c.group?`<span class="badge badge-neutral">${esc(c.group)}</span>`:'—'}</td>
+                <td class="actions-cell">
+                  <button class="btn btn-secondary btn-icon" onclick="openClientForm('${c.id}')" title="Edit">✎</button>
+                  <button class="btn btn-secondary btn-icon" onclick="deleteClient('${c.id}')" title="Delete" style="color:var(--danger)">✕</button>
+                </td>
+              </tr>
+            `).join('')
+          }
+        </tbody>
+      </table>
+    </div>
+  `;
+};
+POST_RENDER.clients = () => { attachSort('clientTable'); attachSearch('clientSearch','clientTable'); };
+
+function openClientForm(id){
+  const clients = KV.get('clients')||[];
+  const c = id ? clients.find(x=>x.id===id) : {fileNo:'',name:'',mobile:'',email:'',group:''};
+  if(!c) return;
+  openModal(`
+    <div class="modal-header"><div class="modal-title">${id?'Edit':'Add'} Client</div><button class="modal-close" onclick="closeModal()">×</button></div>
+    <form onsubmit="saveClient(event,'${id||''}')">
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group"><label>File No *</label><input class="form-input" name="fileNo" value="${esc(c.fileNo)}" required></div>
+          <div class="form-group"><label>Client Name *</label><input class="form-input" name="name" value="${esc(c.name)}" required></div>
+          <div class="form-group"><label>Mobile *</label><input class="form-input" name="mobile" value="${esc(c.mobile)}" required pattern="[0-9+\\-\\s]{7,15}"></div>
+          <div class="form-group"><label>Email *</label><input class="form-input" name="email" type="email" value="${esc(c.email)}" required></div>
+          <div class="form-group full"><label>Group (optional)</label><input class="form-input" name="group" value="${esc(c.group||'')}" placeholder="e.g. ABC Group"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">${id?'Update':'Add'} Client</button>
+      </div>
+    </form>
+  `);
+}
+function saveClient(e, id){
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const data = Object.fromEntries(fd);
+  const clients = KV.get('clients')||[];
+  if(id){
+    const idx = clients.findIndex(c=>c.id===id);
+    if(idx>=0) clients[idx] = {...clients[idx], ...data};
+  } else {
+    const seq = KV.get('seq')||{client:0,staff:0};
+    seq.client = (seq.client||0) + 1;
+    KV.set('seq', seq);
+    clients.push({id:'C'+Date.now()+'_'+seq.client, ...data, created:new Date().toISOString()});
+  }
+  KV.set('clients', clients);
+  toast(id?'Client updated':'Client added','success');
+  closeModal();
+  navigate(currentPage);
+}
+function deleteClient(id){
+  if(!confirm('Delete this client? Allocations, inward and status records for this client will be removed.')) return;
+  let clients = KV.get('clients')||[];
+  clients = clients.filter(c=>c.id!==id);
+  KV.set('clients', clients);
+  const alloc = KV.get('allocations')||{}; delete alloc[id]; KV.set('allocations', alloc);
+  const inward = KV.get('inward')||{}; delete inward[id]; KV.set('inward', inward);
+  const status = KV.get('itrStatus')||{}; delete status[id]; KV.set('itrStatus', status);
+  toast('Client deleted','success');
+  navigate(currentPage);
+}
+
+function downloadClientTemplate(){
+  const ws = XLSX.utils.aoa_to_sheet([
+    ['File No','Client Name','Mobile','Email','Group'],
+    ['F001','Example Client','9876543210','client@example.com','ABC Group'],
+  ]);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Clients');
+  XLSX.writeFile(wb, 'pariman_client_template.xlsx');
+}
+function importClientsExcel(){
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.xlsx,.xls,.csv';
+  input.onchange = async e => {
+    const f = e.target.files[0]; if(!f) return;
+    if(f.size > 5*1024*1024){toast('File exceeds 5 MB','error');return}
+    const buf = await f.arrayBuffer();
+    const wb = XLSX.read(buf,{type:'array'});
+    const sheet = wb.Sheets[wb.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(sheet, {defval:''});
+    let added=0, skipped=0;
+    const clients = KV.get('clients')||[];
+    const seq = KV.get('seq')||{client:0,staff:0};
+    rows.forEach(r=>{
+      const norm = {};
+      Object.keys(r).forEach(k=>{norm[k.toLowerCase().replace(/[^a-z]/g,'')] = String(r[k]).trim()});
+      const fileNo = norm.fileno || norm.file || '';
+      const name = norm.clientname || norm.name || '';
+      if(!fileNo || !name){skipped++;return}
+      seq.client = (seq.client||0) + 1;
+      clients.push({
+        id:'C'+Date.now()+'_'+seq.client,
+        fileNo, name,
+        mobile: norm.mobile || norm.phone || '',
+        email: norm.email || '',
+        group: norm.group || '',
+        created: new Date().toISOString()
+      });
+      added++;
+    });
+    KV.set('seq', seq);
+    KV.set('clients', clients);
+    toast(`Imported ${added} clients${skipped?', skipped '+skipped:''}`,'success');
+    navigate(currentPage);
+  };
+  input.click();
+}
+
+/* ---------- STAFF MASTER ---------- */
+ROUTES.staff = () => {
+  if(!isAdmin()) return adminOnly();
+  const users = (KV.get('users')||[]).filter(u=>u.role==='staff');
+  return `
+    <div class="table-wrap">
+      <div class="table-toolbar">
+        <div class="toolbar-left">
+          <input id="staffSearch" class="search-input" placeholder="Search staff…">
+          <span class="badge badge-info">${users.length} staff</span>
+        </div>
+        <div class="toolbar-right">
+          <button class="btn btn-primary btn-sm" onclick="openStaffForm()">+ Add Staff</button>
+        </div>
+      </div>
+      <table id="staffTable">
+        <thead>
+          <tr>
+            <th data-sort="sn" style="width:60px">SN</th>
+            <th data-sort="username">Username</th>
+            <th data-sort="name">Name</th>
+            <th data-sort="email">Email</th>
+            <th data-sort="active">Status</th>
+            <th class="actions-cell">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${users.length===0
+            ? `<tr><td colspan="6"><div class="empty-state"><div class="empty-state-icon">⚙</div><div>No staff yet. Add your first staff login.</div></div></td></tr>`
+            : users.map((u,i)=>`
+              <tr>
+                <td data-val="sn">${i+1}</td>
+                <td data-val="username"><strong>${esc(u.username)}</strong></td>
+                <td data-val="name">${esc(u.name)}</td>
+                <td data-val="email">${esc(u.email||'—')}</td>
+                <td data-val="active" data-sortval="${u.active?1:0}">${u.active?'<span class="badge badge-success">Active</span>':'<span class="badge badge-neutral">Disabled</span>'}</td>
+                <td class="actions-cell">
+                  <button class="btn btn-secondary btn-icon" onclick="openStaffForm('${u.id}')" title="Edit">✎</button>
+                  <button class="btn btn-secondary btn-icon" onclick="toggleStaff('${u.id}')" title="Toggle">${u.active?'⏸':'▶'}</button>
+                  <button class="btn btn-secondary btn-icon" onclick="deleteStaff('${u.id}')" title="Delete" style="color:var(--danger)">✕</button>
+                </td>
+              </tr>
+            `).join('')
+          }
+        </tbody>
+      </table>
+    </div>
+  `;
+};
+POST_RENDER.staff = () => { attachSort('staffTable'); attachSearch('staffSearch','staffTable'); };
+
+function openStaffForm(id){
+  const users = KV.get('users')||[];
+  const u = id ? users.find(x=>x.id===id) : {username:'',name:'',email:'',password:''};
+  if(!u) return;
+  openModal(`
+    <div class="modal-header"><div class="modal-title">${id?'Edit':'Add'} Staff</div><button class="modal-close" onclick="closeModal()">×</button></div>
+    <form onsubmit="saveStaff(event,'${id||''}')">
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group"><label>Username *</label><input class="form-input" name="username" value="${esc(u.username)}" required ${id?'readonly':''}></div>
+          <div class="form-group"><label>Full Name *</label><input class="form-input" name="name" value="${esc(u.name)}" required></div>
+          <div class="form-group full"><label>Email</label><input class="form-input" name="email" type="email" value="${esc(u.email||'')}"></div>
+          <div class="form-group full"><label>Password ${id?'(leave blank to keep current)':'*'}</label><input class="form-input" name="password" type="text" ${id?'':'required'} placeholder="${id?'••••••••':''}"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">${id?'Update':'Add'} Staff</button>
+      </div>
+    </form>
+  `);
+}
+function saveStaff(e, id){
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const data = Object.fromEntries(fd);
+  const users = KV.get('users')||[];
+  if(id){
+    const idx = users.findIndex(u=>u.id===id);
+    if(idx>=0){
+      const orig = users[idx];
+      users[idx] = {...orig, name:data.name, email:data.email, ...(data.password ? {password:data.password} : {})};
+    }
+  } else {
+    if(users.some(u=>u.username.toLowerCase()===data.username.toLowerCase())){toast('Username already exists','error');return}
+    const seq = KV.get('seq')||{client:0,staff:0};
+    seq.staff = (seq.staff||0) + 1;
+    KV.set('seq', seq);
+    users.push({id:'S'+Date.now()+'_'+seq.staff, username:data.username.toLowerCase(), password:data.password, name:data.name, email:data.email, role:'staff', active:true, created:new Date().toISOString()});
+  }
+  KV.set('users', users);
+  toast(id?'Staff updated':'Staff added','success');
+  closeModal();
+  navigate(currentPage);
+}
+function toggleStaff(id){
+  const users = KV.get('users')||[];
+  const u = users.find(x=>x.id===id); if(!u) return;
+  u.active = !u.active;
+  KV.set('users', users);
+  toast(u.active?'Staff activated':'Staff disabled','success');
+  navigate(currentPage);
+}
+function deleteStaff(id){
+  if(!confirm('Delete this staff member? Their client allocations will be unassigned.')) return;
+  let users = KV.get('users')||[];
+  users = users.filter(u=>u.id!==id);
+  KV.set('users', users);
+  const alloc = KV.get('allocations')||{};
+  Object.keys(alloc).forEach(cid=>{if(alloc[cid]===id) delete alloc[cid]});
+  KV.set('allocations', alloc);
+  toast('Staff deleted','success');
+  navigate(currentPage);
+}
+
+/* ---------- ALLOCATION ---------- */
+ROUTES.allocate = () => {
+  if(!isAdmin()) return adminOnly();
+  const clients = KV.get('clients')||[];
+  const allocations = KV.get('allocations')||{};
+  const staff = (KV.get('users')||[]).filter(u=>u.role==='staff' && u.active);
+  return `
+    <div class="alert alert-info">Allocate clients to staff members. Each client can be assigned to one staff member at a time. Staff will only see their allocated clients.</div>
+    <div class="table-wrap">
+      <div class="table-toolbar">
+        <div class="toolbar-left">
+          <input id="allocSearch" class="search-input" placeholder="Search…">
+          <span class="badge badge-info">${clients.length} clients</span>
+          <span class="badge badge-success">${Object.keys(allocations).filter(k=>allocations[k]).length} allocated</span>
+        </div>
+        <div class="toolbar-right">
+          <button class="btn btn-secondary btn-sm" onclick="bulkAllocate()">↔ Bulk Allocate</button>
+        </div>
+      </div>
+      <table id="allocTable">
+        <thead>
+          <tr>
+            <th data-sort="sn" style="width:60px">SN</th>
+            <th data-sort="fileNo">File No</th>
+            <th data-sort="name">Client Name</th>
+            <th data-sort="group">Group</th>
+            <th data-sort="staff">Assigned Staff</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${clients.length===0
+            ? `<tr><td colspan="5"><div class="empty-state">No clients to allocate</div></td></tr>`
+            : clients.map((c,i)=>{
+                const sid = allocations[c.id]||'';
+                return `
+                  <tr>
+                    <td data-val="sn">${i+1}</td>
+                    <td data-val="fileNo"><strong>${esc(c.fileNo)}</strong></td>
+                    <td data-val="name">${esc(c.name)}</td>
+                    <td data-val="group">${c.group?esc(c.group):'—'}</td>
+                    <td data-val="staff" data-sortval="${esc(staff.find(s=>s.id===sid)?.name||'zz')}">
+                      <select class="form-select" onchange="setAllocation('${c.id}', this.value)" style="max-width:240px;padding:7px 10px">
+                        <option value="">— Unassigned —</option>
+                        ${staff.map(s=>`<option value="${s.id}" ${s.id===sid?'selected':''}>${esc(s.name)} (${esc(s.username)})</option>`).join('')}
+                      </select>
+                    </td>
+                  </tr>
+                `;
+              }).join('')
+          }
+        </tbody>
+      </table>
+    </div>
+  `;
+};
+POST_RENDER.allocate = () => { attachSort('allocTable'); attachSearch('allocSearch','allocTable'); };
+
+function setAllocation(clientId, staffId){
+  const a = KV.get('allocations')||{};
+  if(staffId) a[clientId] = staffId; else delete a[clientId];
+  KV.set('allocations', a);
+  toast('Allocation updated','success');
+}
+function bulkAllocate(){
+  const staff = (KV.get('users')||[]).filter(u=>u.role==='staff' && u.active);
+  if(staff.length===0){toast('Add staff first','warning');return}
+  const clients = KV.get('clients')||[];
+  openModal(`
+    <div class="modal-header"><div class="modal-title">Bulk Allocate</div><button class="modal-close" onclick="closeModal()">×</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Assign all currently unassigned clients to</label>
+        <select id="bulkStaff" class="form-select">
+          ${staff.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="doBulkAllocate()">Assign</button>
+    </div>
+  `);
+}
+function doBulkAllocate(){
+  const sid = document.getElementById('bulkStaff').value;
+  const a = KV.get('allocations')||{};
+  const clients = KV.get('clients')||[];
+  let n=0;
+  clients.forEach(c=>{if(!a[c.id]){a[c.id]=sid;n++}});
+  KV.set('allocations', a);
+  toast(`Allocated ${n} clients`,'success');
+  closeModal();
+  navigate('allocate');
+}
+
+/* ---------- DATA INWARD (ADMIN) ---------- */
+ROUTES.inward = () => {
+  if(!isAdmin()) return adminOnly();
+  const clients = KV.get('clients')||[];
+  const inward = KV.get('inward')||{};
+  const allocations = KV.get('allocations')||{};
+  const users = KV.get('users')||[];
+
+  return `
+    <div class="alert alert-info">Tick the checkbox when income tax data has been received from a client. You can also note the inward date and remarks.</div>
+    <div class="table-wrap">
+      <div class="table-toolbar">
+        <div class="toolbar-left">
+          <input id="inwardSearch" class="search-input" placeholder="Search…">
+          <span class="badge badge-success">${Object.keys(inward).filter(k=>inward[k]?.received).length} received</span>
+        </div>
+        <div class="toolbar-right">
+          <button class="btn btn-secondary btn-sm" onclick="markAllInward(true)">✓ Tick all visible</button>
+          <button class="btn btn-secondary btn-sm" onclick="markAllInward(false)">↺ Untick all visible</button>
+        </div>
+      </div>
+      <table id="inwardTable">
+        <thead>
+          <tr>
+            <th style="width:50px">Received</th>
+            <th data-sort="fileNo">File No</th>
+            <th data-sort="name">Client</th>
+            <th data-sort="staff">Allocated To</th>
+            <th data-sort="date">Inward Date</th>
+            <th data-sort="remarks">Remarks</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${clients.length===0
+            ? `<tr><td colspan="6"><div class="empty-state">No clients yet</div></td></tr>`
+            : clients.map(c=>{
+                const inw = inward[c.id]||{};
+                const sid = allocations[c.id];
+                const staffName = users.find(u=>u.id===sid)?.name || '—';
+                return `
+                  <tr>
+                    <td class="checkbox-cell"><input type="checkbox" ${inw.received?'checked':''} onchange="setInward('${c.id}', this.checked)"></td>
+                    <td data-val="fileNo"><strong>${esc(c.fileNo)}</strong></td>
+                    <td data-val="name">${esc(c.name)}</td>
+                    <td data-val="staff">${esc(staffName)}</td>
+                    <td data-val="date" data-sortval="${inw.date||''}"><input type="date" class="form-input" style="padding:5px 8px;font-size:12px;width:140px" value="${inw.date||''}" onchange="updateInwardField('${c.id}','date',this.value)"></td>
+                    <td data-val="remarks"><input class="form-input" style="padding:5px 8px;font-size:12px" value="${esc(inw.remarks||'')}" placeholder="—" onchange="updateInwardField('${c.id}','remarks',this.value)"></td>
+                  </tr>
+                `;
+              }).join('')
+          }
+        </tbody>
+      </table>
+    </div>
+  `;
+};
+POST_RENDER.inward = () => { attachSort('inwardTable'); attachSearch('inwardSearch','inwardTable'); };
+
+function setInward(cid, val){
+  const inw = KV.get('inward')||{};
+  inw[cid] = inw[cid] || {};
+  inw[cid].received = val;
+  if(val && !inw[cid].date) inw[cid].date = new Date().toISOString().slice(0,10);
+  KV.set('inward', inw);
+}
+function updateInwardField(cid, field, val){
+  const inw = KV.get('inward')||{};
+  inw[cid] = inw[cid] || {};
+  inw[cid][field] = val;
+  KV.set('inward', inw);
+}
+function markAllInward(val){
+  const inw = KV.get('inward')||{};
+  document.querySelectorAll('#inwardTable tbody tr').forEach(tr=>{
+    if(tr.style.display==='none') return;
+    const cb = tr.querySelector('input[type=checkbox]');
+    if(cb){cb.checked = val;}
+    const fileNoCell = tr.querySelector('[data-val=fileNo]');
+    if(fileNoCell){
+      const fileNo = fileNoCell.textContent.trim();
+      const clients = KV.get('clients')||[];
+      const c = clients.find(x=>x.fileNo===fileNo);
+      if(c){
+        inw[c.id] = inw[c.id]||{};
+        inw[c.id].received = val;
+        if(val && !inw[c.id].date) inw[c.id].date = new Date().toISOString().slice(0,10);
+      }
+    }
+  });
+  KV.set('inward', inw);
+  toast(val?'Marked all visible as received':'Cleared all visible','success');
+}
+
+/* ---------- ITR STATUS (ADMIN sees all, STAFF sees own) ---------- */
+ROUTES['itr-status'] = () => {
+  if(!isAdmin()) return adminOnly();
+  return renderItrStatusPage(null);
+};
+ROUTES['my-status'] = () => {
+  return renderItrStatusPage(currentUser().id);
+};
+ROUTES['my-clients'] = () => {
+  const me = currentUser();
+  const clients = KV.get('clients')||[];
+  const allocations = KV.get('allocations')||{};
+  const myClients = clients.filter(c=>allocations[c.id]===me.id);
+  return `
+    <div class="alert alert-info">These are the clients allocated to you. View only — contact admin for changes.</div>
+    <div class="table-wrap">
+      <div class="table-toolbar">
+        <div class="toolbar-left">
+          <input id="mcSearch" class="search-input" placeholder="Search…">
+          <span class="badge badge-info">${myClients.length} clients</span>
+        </div>
+      </div>
+      <table id="mcTable">
+        <thead>
+          <tr>
+            <th data-sort="sn" style="width:60px">SN</th>
+            <th data-sort="fileNo">File No</th>
+            <th data-sort="name">Client Name</th>
+            <th data-sort="mobile">Mobile</th>
+            <th data-sort="email">Email</th>
+            <th data-sort="group">Group</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${myClients.length===0
+            ? `<tr><td colspan="6"><div class="empty-state">No clients allocated to you yet</div></td></tr>`
+            : myClients.map((c,i)=>`
+              <tr>
+                <td data-val="sn">${i+1}</td>
+                <td data-val="fileNo"><strong>${esc(c.fileNo)}</strong></td>
+                <td data-val="name">${esc(c.name)}</td>
+                <td data-val="mobile">${esc(c.mobile)}</td>
+                <td data-val="email">${esc(c.email)}</td>
+                <td data-val="group">${c.group?esc(c.group):'—'}</td>
+              </tr>
+            `).join('')
+          }
+        </tbody>
+      </table>
+    </div>
+  `;
+};
+POST_RENDER['my-clients'] = () => { attachSort('mcTable'); attachSearch('mcSearch','mcTable'); };
+
+ROUTES['my-inward'] = () => {
+  const me = currentUser();
+  const clients = KV.get('clients')||[];
+  const allocations = KV.get('allocations')||{};
+  const inward = KV.get('inward')||{};
+  const myClients = clients.filter(c=>allocations[c.id]===me.id);
+  return `
+    <div class="alert alert-info">Data inward status for your clients. Only admin can mark data as received.</div>
+    <div class="table-wrap">
+      <div class="table-toolbar">
+        <div class="toolbar-left">
+          <input id="miSearch" class="search-input" placeholder="Search…">
+          <span class="badge badge-success">${myClients.filter(c=>inward[c.id]?.received).length} received</span>
+          <span class="badge badge-warning">${myClients.filter(c=>!inward[c.id]?.received).length} pending</span>
+        </div>
+      </div>
+      <table id="miTable">
+        <thead>
+          <tr>
+            <th data-sort="status">Status</th>
+            <th data-sort="fileNo">File No</th>
+            <th data-sort="name">Client</th>
+            <th data-sort="date">Date</th>
+            <th data-sort="remarks">Remarks</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${myClients.length===0
+            ? `<tr><td colspan="5"><div class="empty-state">No clients allocated</div></td></tr>`
+            : myClients.map(c=>{
+                const inw = inward[c.id]||{};
+                return `
+                  <tr>
+                    <td data-val="status" data-sortval="${inw.received?1:0}">${inw.received?'<span class="badge badge-success">Received</span>':'<span class="badge badge-warning">Pending</span>'}</td>
+                    <td data-val="fileNo"><strong>${esc(c.fileNo)}</strong></td>
+                    <td data-val="name">${esc(c.name)}</td>
+                    <td data-val="date">${fmtDate(inw.date)}</td>
+                    <td data-val="remarks">${esc(inw.remarks||'—')}</td>
+                  </tr>
+                `;
+              }).join('')
+          }
+        </tbody>
+      </table>
+    </div>
+  `;
+};
+POST_RENDER['my-inward'] = () => { attachSort('miTable'); attachSearch('miSearch','miTable'); };
+
+function renderItrStatusPage(staffId){
+  const clients = KV.get('clients')||[];
+  const allocations = KV.get('allocations')||{};
+  const status = KV.get('itrStatus')||{};
+  const users = KV.get('users')||[];
+  const fys = getFYList();
+  const fy = fys.slice(-1)[0];
+
+  let list = clients;
+  if(staffId) list = list.filter(c=>allocations[c.id]===staffId);
+
+  return `
+    <div class="card" style="margin-bottom:16px">
+      <div class="form-grid">
+        <div class="form-group"><label>Financial Year</label>
+          <select id="statusFY" class="form-select" onchange="navigate(currentPage)">
+            ${fys.map(f=>`<option value="${f}" ${f===(window._currentStatusFY||fy)?'selected':''}>FY ${f}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-group"><label>Filter</label>
+          <input id="statusSearch" class="search-input" placeholder="Search clients…" style="max-width:none;width:100%">
+        </div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table id="statusTable">
+        <thead>
+          <tr>
+            <th data-sort="fileNo">File No</th>
+            <th data-sort="name">Client</th>
+            ${!staffId?`<th data-sort="staff">Staff</th>`:''}
+            <th data-sort="status">Status</th>
+            <th data-sort="pendingWith">Pending With</th>
+            <th data-sort="fileDate">ITR File Date</th>
+            <th data-sort="itrSet">ITR Set</th>
+            <th data-sort="casePaper">Case Closed</th>
+          </tr>
+        </thead>
+        <tbody id="statusBody"></tbody>
+      </table>
+    </div>
+  `;
+}
+window._currentStatusFY = null;
+POST_RENDER['itr-status'] = () => bindStatusTable(null);
+POST_RENDER['my-status'] = () => bindStatusTable(currentUser().id);
+
+function bindStatusTable(staffId){
+  const fySel = document.getElementById('statusFY');
+  if(!fySel) return;
+  const fy = fySel.value;
+  window._currentStatusFY = fy;
+  const clients = KV.get('clients')||[];
+  const allocations = KV.get('allocations')||{};
+  const status = KV.get('itrStatus')||{};
+  const users = KV.get('users')||[];
+  let list = clients;
+  if(staffId) list = list.filter(c=>allocations[c.id]===staffId);
+
+  const tbody = document.getElementById('statusBody');
+  const isStaffView = !!staffId;
+
+  const render = () => {
+    tbody.innerHTML = list.length===0
+      ? `<tr><td colspan="${isStaffView?7:8}"><div class="empty-state">No clients</div></td></tr>`
+      : list.map(c=>{
+          const s = status[c.id]?.[fy] || {};
+          const locked = !!s.locked;
+          const sid = allocations[c.id];
+          const staffName = users.find(u=>u.id===sid)?.name || '—';
+          const readonly = locked && !isAdmin();
+          return `
+            <tr>
+              <td data-val="fileNo"><strong>${esc(c.fileNo)}</strong>${locked?' <span class="badge badge-warning">🔒</span>':''}</td>
+              <td data-val="name">${esc(c.name)}</td>
+              ${!isStaffView?`<td data-val="staff">${esc(staffName)}</td>`:''}
+              <td data-val="status" data-sortval="${esc(s.status||'')}">
+                <select class="form-select" style="padding:5px 8px;font-size:12px;min-width:110px" ${readonly?'disabled':''} onchange="updateStatus('${c.id}','${fy}','status',this.value)">
+                  <option value="">—</option>
+                  <option ${s.status==='Pending'?'selected':''}>Pending</option>
+                  <option ${s.status==='WIP'?'selected':''}>WIP</option>
+                  <option ${s.status==='Complete'?'selected':''}>Complete</option>
+                </select>
+              </td>
+              <td data-val="pendingWith" data-sortval="${esc(s.pendingWith||'')}">
+                <select class="form-select" style="padding:5px 8px;font-size:12px;min-width:120px" ${readonly?'disabled':''} onchange="updateStatus('${c.id}','${fy}','pendingWith',this.value)">
+                  <option value="">—</option>
+                  <option ${s.pendingWith==='Client'?'selected':''}>Client</option>
+                  <option ${s.pendingWith==='Manager'?'selected':''}>Manager</option>
+                  <option ${s.pendingWith==='Director'?'selected':''}>Director</option>
+                </select>
+              </td>
+              <td data-val="fileDate" data-sortval="${s.fileDate||''}">
+                <input type="date" class="form-input" style="padding:5px 8px;font-size:12px;width:140px" ${readonly?'disabled':''} value="${s.fileDate||''}" onchange="updateStatus('${c.id}','${fy}','fileDate',this.value)">
+              </td>
+              <td data-val="itrSet" data-sortval="${esc(s.itrSet||'')}">
+                <select class="form-select" style="padding:5px 8px;font-size:12px;width:80px" ${readonly?'disabled':''} onchange="updateStatus('${c.id}','${fy}','itrSet',this.value)">
+                  <option value="">—</option>
+                  <option ${s.itrSet==='Yes'?'selected':''}>Yes</option>
+                  <option ${s.itrSet==='No'?'selected':''}>No</option>
+                </select>
+              </td>
+              <td data-val="casePaper" data-sortval="${esc(s.casePaperClosed||'')}">
+                <select class="form-select" style="padding:5px 8px;font-size:12px;width:80px" ${readonly?'disabled':''} onchange="updateStatus('${c.id}','${fy}','casePaperClosed',this.value)">
+                  <option value="">—</option>
+                  <option ${s.casePaperClosed==='Yes'?'selected':''}>Yes</option>
+                  <option ${s.casePaperClosed==='No'?'selected':''}>No</option>
+                </select>
+              </td>
+            </tr>
+          `;
+        }).join('');
+    attachSort('statusTable');
+  };
+
+  render();
+  attachSearch('statusSearch','statusTable');
+}
+
+function updateStatus(cid, fy, field, val){
+  const status = KV.get('itrStatus')||{};
+  status[cid] = status[cid] || {};
+  status[cid][fy] = status[cid][fy] || {};
+  if(status[cid][fy].locked && !isAdmin()){toast('This entry is locked','error');return}
+  status[cid][fy][field] = val;
+  KV.set('itrStatus', status);
+}
+
+/* ---------- ITR UPLOAD ---------- */
+ROUTES['itr-upload'] = () => {
+  if(!isAdmin()) return adminOnly();
+  const clients = KV.get('clients')||[];
+  const fys = getFYList();
+  return `
+    <div class="alert alert-info">Upload ITR set PDFs year-wise for each client. Max 5 MB per file. PDF or Excel formats supported.</div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="form-grid">
+        <div class="form-group"><label>Select Client</label>
+          <select id="uploadClient" class="form-select" onchange="renderUploadGrid()">
+            <option value="">— choose client —</option>
+            ${clients.map(c=>`<option value="${c.id}">${esc(c.fileNo)} · ${esc(c.name)}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-group"><label>Search</label>
+          <input class="search-input" placeholder="Type to filter dropdown…" oninput="filterSelect('uploadClient',this.value)" style="max-width:none;width:100%">
+        </div>
+      </div>
+    </div>
+    <div id="uploadGrid"></div>
+  `;
+};
+function filterSelect(id, q){
+  const sel = document.getElementById(id);
+  q = q.toLowerCase();
+  Array.from(sel.options).forEach(o=>{
+    o.hidden = o.value && !o.textContent.toLowerCase().includes(q);
+  });
+}
+async function renderUploadGrid(){
+  const cid = document.getElementById('uploadClient').value;
+  const grid = document.getElementById('uploadGrid');
+  if(!cid){grid.innerHTML='';return}
+  const fys = getFYList();
+  const status = KV.get('itrStatus')||{};
+  const cards = await Promise.all(fys.map(async fy=>{
+    const meta = await FileDB.getMeta(`itr:${cid}:${fy}`);
+    const locked = !!status[cid]?.[fy]?.locked;
+    return `
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-header">
+          <div>
+            <div class="card-title">FY ${fy}</div>
+            <div class="card-sub">${meta?`Uploaded: ${esc(meta.filename)} · ${fmtBytes(meta.size)} · ${fmtDate(meta.uploaded)}`:'No file uploaded yet'}</div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            ${meta?`
+              <button class="btn btn-secondary btn-sm" onclick="viewItrFile('${cid}','${fy}')">👁 View</button>
+              <button class="btn btn-secondary btn-sm" onclick="downloadItrFile('${cid}','${fy}')">⤓ Download</button>
+              <button class="btn ${locked?'btn-warning':'btn-secondary'} btn-sm" onclick="toggleLock('${cid}','${fy}')">${locked?'🔒 Unlock':'🔓 Lock'}</button>
+              <button class="btn btn-secondary btn-sm" onclick="deleteItrFile('${cid}','${fy}')" style="color:var(--danger)">✕ Remove</button>
+            `:''}
+            <label class="btn btn-primary btn-sm" style="cursor:pointer">
+              📤 ${meta?'Replace':'Upload'}
+              <input type="file" hidden accept=".pdf,.xlsx,.xls" onchange="uploadItrFile('${cid}','${fy}',this)">
+            </label>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--text-muted)">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
+            <input type="checkbox" ${status[cid]?.[fy]?.itrSet==='Yes'?'checked':''} onchange="updateStatus('${cid}','${fy}','itrSet',this.checked?'Yes':'No')">
+            ITR Set Ready
+          </label>
+          ${locked?'<span class="badge badge-warning">🔒 Locked — staff cannot edit</span>':''}
+        </div>
+      </div>
+    `;
+  }));
+  grid.innerHTML = cards.join('');
+}
+async function uploadItrFile(cid, fy, input){
+  const f = input.files[0]; if(!f) return;
+  if(f.size > 5*1024*1024){toast('File exceeds 5 MB limit','error');return}
+  try{
+    await FileDB.save(`itr:${cid}:${fy}`, f, {filename:f.name, type:f.type, clientId:cid, fy});
+    toast('Uploaded','success');
+    renderUploadGrid();
+    updateStorageIndicator();
+  }catch(e){toast(e.message,'error')}
+}
+async function viewItrFile(cid, fy){
+  const blob = await FileDB.get(`itr:${cid}:${fy}`);
+  if(!blob){toast('File not found','error');return}
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+}
+async function downloadItrFile(cid, fy){
+  const blob = await FileDB.get(`itr:${cid}:${fy}`);
+  const meta = await FileDB.getMeta(`itr:${cid}:${fy}`);
+  if(!blob){toast('File not found','error');return}
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = meta?.filename || `itr_${cid}_${fy}.pdf`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+async function deleteItrFile(cid, fy){
+  if(!confirm('Remove this file?')) return;
+  await FileDB.del(`itr:${cid}:${fy}`);
+  toast('Removed','success');
+  renderUploadGrid();
+  updateStorageIndicator();
+}
+function toggleLock(cid, fy){
+  const status = KV.get('itrStatus')||{};
+  status[cid] = status[cid]||{};
+  status[cid][fy] = status[cid][fy]||{};
+  status[cid][fy].locked = !status[cid][fy].locked;
+  KV.set('itrStatus', status);
+  toast(status[cid][fy].locked?'Locked':'Unlocked','success');
+  renderUploadGrid();
+}
+
+/* ---------- ITR SET LOCKER (ADMIN OVERVIEW) ---------- */
+ROUTES['itr-set'] = () => {
+  if(!isAdmin()) return adminOnly();
+  const clients = KV.get('clients')||[];
+  const status = KV.get('itrStatus')||{};
+  const fys = getFYList();
+  return `
+    <div class="alert alert-info">Year-wise ITR set overview. Click a year pill to view/print/send to the client. Lock to prevent staff edits.</div>
+    <div class="table-wrap">
+      <div class="table-toolbar">
+        <div class="toolbar-left">
+          <input id="setSearch" class="search-input" placeholder="Search clients…">
+          <span class="badge badge-info">${clients.length} clients</span>
+        </div>
+      </div>
+      <table id="setTable">
+        <thead>
+          <tr>
+            <th data-sort="fileNo">File No</th>
+            <th data-sort="name">Client</th>
+            <th>Financial Years</th>
+          </tr>
+        </thead>
+        <tbody id="setTableBody"></tbody>
+      </table>
+    </div>
+  `;
+};
+POST_RENDER['itr-set'] = async () => {
+  const clients = KV.get('clients')||[];
+  const status = KV.get('itrStatus')||{};
+  const fys = getFYList();
+  const tbody = document.getElementById('setTableBody');
+  if(clients.length===0){tbody.innerHTML = `<tr><td colspan="3"><div class="empty-state">No clients</div></td></tr>`; return}
+  const rows = await Promise.all(clients.map(async c=>{
+    const pills = await Promise.all(fys.map(async fy=>{
+      const meta = await FileDB.getMeta(`itr:${c.id}:${fy}`);
+      const locked = !!status[c.id]?.[fy]?.locked;
+      let cls = 'year-pill';
+      if(meta) cls += ' has-file';
+      if(locked) cls += ' locked';
+      return `<span class="${cls}" onclick="openItrActions('${c.id}','${fy}')">${fy}${locked?' 🔒':''}${meta?' ✓':''}</span>`;
+    }));
+    return `
+      <tr>
+        <td data-val="fileNo"><strong>${esc(c.fileNo)}</strong></td>
+        <td data-val="name">${esc(c.name)}</td>
+        <td>${pills.join('')}</td>
+      </tr>
+    `;
+  }));
+  tbody.innerHTML = rows.join('');
+  attachSort('setTable');
+  attachSearch('setSearch','setTable');
+};
+
+async function openItrActions(cid, fy){
+  const clients = KV.get('clients')||[];
+  const c = clients.find(x=>x.id===cid);
+  const meta = await FileDB.getMeta(`itr:${cid}:${fy}`);
+  const status = KV.get('itrStatus')||{};
+  const locked = !!status[cid]?.[fy]?.locked;
+  openModal(`
+    <div class="modal-header"><div class="modal-title">ITR Set · ${esc(c.name)} · FY ${fy}</div><button class="modal-close" onclick="closeModal()">×</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div><strong>File No:</strong> ${esc(c.fileNo)}</div>
+        <div><strong>Mobile:</strong> ${esc(c.mobile)}</div>
+        <div class="full"><strong>Email:</strong> ${esc(c.email)}</div>
+      </div>
+      <hr style="margin:14px 0;border:none;border-top:1px solid var(--border)">
+      <div style="margin-bottom:10px">
+        ${meta?`📎 <strong>${esc(meta.filename)}</strong> · ${fmtBytes(meta.size)} · uploaded ${fmtDate(meta.uploaded)}`:'<em style="color:var(--text-muted)">No file uploaded yet</em>'}
+        ${locked?'<br><span class="badge badge-warning" style="margin-top:6px">🔒 Locked — staff cannot edit</span>':''}
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px">
+        ${meta?`
+          <button class="btn btn-secondary btn-sm" onclick="viewItrFile('${cid}','${fy}')">👁 View</button>
+          <button class="btn btn-secondary btn-sm" onclick="printItrSet('${cid}','${fy}')">🖨 Print</button>
+          <button class="btn btn-secondary btn-sm" onclick="downloadItrFile('${cid}','${fy}')">⤓ Download</button>
+          <button class="btn btn-success btn-sm" onclick="sendWhatsApp('${cid}','${fy}')">📱 WhatsApp</button>
+          <button class="btn btn-warning btn-sm" onclick="sendEmail('${cid}','${fy}')">✉ Email</button>
+        `:''}
+        ${isAdmin()?`<button class="btn ${locked?'btn-warning':'btn-secondary'} btn-sm" onclick="toggleLock('${cid}','${fy}');closeModal();navigate(currentPage)">${locked?'🔓 Unlock':'🔒 Lock'}</button>`:''}
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+    </div>
+  `);
+}
+async function printItrSet(cid, fy){
+  const blob = await FileDB.get(`itr:${cid}:${fy}`);
+  if(!blob){toast('File not found','error');return}
+  const url = URL.createObjectURL(blob);
+  const w = window.open(url, '_blank');
+  if(w){setTimeout(()=>{try{w.print()}catch(e){}}, 800)}
+}
+function sendWhatsApp(cid, fy){
+  const clients = KV.get('clients')||[];
+  const c = clients.find(x=>x.id===cid);
+  if(!c) return;
+  const mobile = (c.mobile||'').replace(/[^0-9]/g,'');
+  const number = mobile.length===10 ? '91'+mobile : mobile;
+  const msg = `Dear ${c.name},\n\nGreetings from Pariman Global Consulting Consulting.\n\nPlease find attached your Income Tax Return Set for FY ${fy} for your records.\n\nFor any clarifications, kindly contact our office.\n\nRegards,\nPariman Global Consulting Consulting\nGrowth · Governance · Global Standards`;
+  window.open(`https://wa.me/${number}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+function sendEmail(cid, fy){
+  const clients = KV.get('clients')||[];
+  const c = clients.find(x=>x.id===cid);
+  if(!c) return;
+  const subject = `ITR Set for FY ${fy} — ${c.name} (${c.fileNo})`;
+  const body = `Dear ${c.name},\n\nGreetings from Pariman Global Consulting Consulting.\n\nPlease find attached your Income Tax Return Set for FY ${fy} for your records.\n\nKindly review and let us know if you have any queries.\n\nNote: Please attach the downloaded ITR PDF to this email before sending.\n\nWarm regards,\nPariman Global Consulting Consulting\nEmail: info@pariman.co.in\nGrowth · Governance · Global Standards`;
+  const mailto = `mailto:${encodeURIComponent(c.email)}?cc=${encodeURIComponent('info@pariman.co.in')}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailto;
+}
+
+/* ---------- REPORTS ---------- */
+function reportHeader(title){
+  return `
+    <div class="print-header">
+      <div style="transform:scale(.6);transform-origin:left center;margin-right:-30px">${LOGO_SVG}</div>
+      <div>
+        <div class="brand-text" style="font-size:22px">Pariman Global Consulting Consulting</div>
+        <div class="brand-tagline">Growth · Governance · Global Standards</div>
+        <div style="margin-top:8px;font-size:14px;font-weight:700">${esc(title)}</div>
+        <div style="font-size:11px;color:var(--text-muted)">Generated: ${new Date().toLocaleString('en-IN')}</div>
+      </div>
+    </div>
+  `;
+}
+
+function getScopedClients(){
+  const clients = KV.get('clients')||[];
+  if(isAdmin()) return clients;
+  const me = currentUser();
+  const a = KV.get('allocations')||{};
+  return clients.filter(c=>a[c.id]===me.id);
+}
+
+ROUTES['rpt-received'] = () => {
+  if(!isAdmin()) return adminOnly();
+  const clients = getScopedClients();
+  const inward = KV.get('inward')||{};
+  const users = KV.get('users')||[];
+  const alloc = KV.get('allocations')||{};
+  const list = clients.filter(c=>inward[c.id]?.received);
+  return `
+    ${reportHeader('ITR Data Received List')}
+    <div class="table-wrap">
+      <div class="table-toolbar no-print">
+        <div class="toolbar-left"><input id="rrSearch" class="search-input" placeholder="Search…"><span class="badge badge-success">${list.length} received</span></div>
+        <div class="toolbar-right"><button class="btn btn-secondary btn-sm" onclick="window.print()">🖨 Print</button><button class="btn btn-secondary btn-sm" onclick="exportTableExcel('rrTable','data_received')">⤓ Excel</button></div>
+      </div>
+      <table id="rrTable">
+        <thead><tr><th data-sort="sn">SN</th><th data-sort="fileNo">File No</th><th data-sort="name">Client</th><th data-sort="mobile">Mobile</th><th data-sort="staff">Staff</th><th data-sort="date">Date</th><th data-sort="remarks">Remarks</th></tr></thead>
+        <tbody>
+          ${list.length===0?`<tr><td colspan="7"><div class="empty-state">No data received yet</div></td></tr>`:
+          list.map((c,i)=>{
+            const inw = inward[c.id]||{};
+            return `<tr>
+              <td data-val="sn">${i+1}</td>
+              <td data-val="fileNo"><strong>${esc(c.fileNo)}</strong></td>
+              <td data-val="name">${esc(c.name)}</td>
+              <td data-val="mobile">${esc(c.mobile)}</td>
+              <td data-val="staff">${esc(users.find(u=>u.id===alloc[c.id])?.name||'—')}</td>
+              <td data-val="date">${fmtDate(inw.date)}</td>
+              <td data-val="remarks">${esc(inw.remarks||'—')}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+};
+POST_RENDER['rpt-received'] = () => { attachSort('rrTable'); attachSearch('rrSearch','rrTable'); };
+
+ROUTES['rpt-pending'] = () => {
+  if(!isAdmin()) return adminOnly();
+  const clients = getScopedClients();
+  const inward = KV.get('inward')||{};
+  const users = KV.get('users')||[];
+  const alloc = KV.get('allocations')||{};
+  const list = clients.filter(c=>!inward[c.id]?.received);
+  return `
+    ${reportHeader('ITR Data Pending List')}
+    <div class="table-wrap">
+      <div class="table-toolbar no-print">
+        <div class="toolbar-left"><input id="rpSearch" class="search-input" placeholder="Search…"><span class="badge badge-warning">${list.length} pending</span></div>
+        <div class="toolbar-right"><button class="btn btn-secondary btn-sm" onclick="window.print()">🖨 Print</button><button class="btn btn-secondary btn-sm" onclick="exportTableExcel('rpTable','data_pending')">⤓ Excel</button></div>
+      </div>
+      <table id="rpTable">
+        <thead><tr><th data-sort="sn">SN</th><th data-sort="fileNo">File No</th><th data-sort="name">Client</th><th data-sort="mobile">Mobile</th><th data-sort="email">Email</th><th data-sort="staff">Staff</th></tr></thead>
+        <tbody>
+          ${list.length===0?`<tr><td colspan="6"><div class="empty-state">All client data received 🎉</div></td></tr>`:
+          list.map((c,i)=>`<tr>
+            <td data-val="sn">${i+1}</td>
+            <td data-val="fileNo"><strong>${esc(c.fileNo)}</strong></td>
+            <td data-val="name">${esc(c.name)}</td>
+            <td data-val="mobile">${esc(c.mobile)}</td>
+            <td data-val="email">${esc(c.email)}</td>
+            <td data-val="staff">${esc(users.find(u=>u.id===alloc[c.id])?.name||'—')}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+};
+POST_RENDER['rpt-pending'] = () => { attachSort('rpTable'); attachSearch('rpSearch','rpTable'); };
+
+ROUTES['rpt-not-completed'] = () => {
+  const fys = getFYList();
+  const fy = window._rptFY || fys.slice(-1)[0];
+  window._rptFY = fy;
+  const clients = getScopedClients();
+  const inward = KV.get('inward')||{};
+  const status = KV.get('itrStatus')||{};
+  const list = clients.filter(c=>inward[c.id]?.received && status[c.id]?.[fy]?.status !== 'Complete');
+  return `
+    ${reportHeader('ITR Data Received but Not Completed · FY ' + fy)}
+    <div class="card no-print" style="margin-bottom:14px">
+      <div class="form-group" style="margin:0"><label>Financial Year</label>
+        <select class="form-select" onchange="window._rptFY=this.value;navigate(currentPage)" style="max-width:200px">
+          ${fys.map(f=>`<option ${f===fy?'selected':''}>${f}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <div class="table-toolbar no-print">
+        <div class="toolbar-left"><input id="rncSearch" class="search-input" placeholder="Search…"><span class="badge badge-warning">${list.length} in progress</span></div>
+        <div class="toolbar-right"><button class="btn btn-secondary btn-sm" onclick="window.print()">🖨 Print</button><button class="btn btn-secondary btn-sm" onclick="exportTableExcel('rncTable','received_not_done_${fy}')">⤓ Excel</button></div>
+      </div>
+      <table id="rncTable">
+        <thead><tr><th data-sort="sn">SN</th><th data-sort="fileNo">File No</th><th data-sort="name">Client</th><th data-sort="status">Status</th><th data-sort="pendingWith">Pending With</th><th data-sort="inwardDate">Inward Date</th></tr></thead>
+        <tbody>
+          ${list.length===0?`<tr><td colspan="6"><div class="empty-state">Nothing pending 🎉</div></td></tr>`:
+          list.map((c,i)=>{
+            const s = status[c.id]?.[fy]||{};
+            return `<tr>
+              <td data-val="sn">${i+1}</td>
+              <td data-val="fileNo"><strong>${esc(c.fileNo)}</strong></td>
+              <td data-val="name">${esc(c.name)}</td>
+              <td data-val="status">${statusBadge(s.status)}</td>
+              <td data-val="pendingWith">${esc(s.pendingWith||'—')}</td>
+              <td data-val="inwardDate">${fmtDate(inward[c.id]?.date)}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+};
+POST_RENDER['rpt-not-completed'] = () => { attachSort('rncTable'); attachSearch('rncSearch','rncTable'); };
+
+ROUTES['rpt-completed'] = () => {
+  const fys = getFYList();
+  const fy = window._rptFY || fys.slice(-1)[0];
+  window._rptFY = fy;
+  const clients = getScopedClients();
+  const status = KV.get('itrStatus')||{};
+  const list = clients.filter(c=>status[c.id]?.[fy]?.status === 'Complete');
+  return `
+    ${reportHeader('ITR Completed · FY ' + fy)}
+    <div class="card no-print" style="margin-bottom:14px">
+      <div class="form-group" style="margin:0"><label>Financial Year</label>
+        <select class="form-select" onchange="window._rptFY=this.value;navigate(currentPage)" style="max-width:200px">
+          ${fys.map(f=>`<option ${f===fy?'selected':''}>${f}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <div class="table-toolbar no-print">
+        <div class="toolbar-left"><input id="rcSearch" class="search-input" placeholder="Search…"><span class="badge badge-success">${list.length} completed</span></div>
+        <div class="toolbar-right"><button class="btn btn-secondary btn-sm" onclick="window.print()">🖨 Print</button><button class="btn btn-secondary btn-sm" onclick="exportTableExcel('rcTable','completed_${fy}')">⤓ Excel</button></div>
+      </div>
+      <table id="rcTable">
+        <thead><tr><th data-sort="sn">SN</th><th data-sort="fileNo">File No</th><th data-sort="name">Client</th><th data-sort="fileDate">ITR File Date</th><th data-sort="itrSet">ITR Set</th><th data-sort="caseClosed">Case Closed</th></tr></thead>
+        <tbody>
+          ${list.length===0?`<tr><td colspan="6"><div class="empty-state">None completed yet for FY ${fy}</div></td></tr>`:
+          list.map((c,i)=>{
+            const s = status[c.id]?.[fy]||{};
+            return `<tr>
+              <td data-val="sn">${i+1}</td>
+              <td data-val="fileNo"><strong>${esc(c.fileNo)}</strong></td>
+              <td data-val="name">${esc(c.name)}</td>
+              <td data-val="fileDate">${fmtDate(s.fileDate)}</td>
+              <td data-val="itrSet">${yesNoBadge(s.itrSet)}</td>
+              <td data-val="caseClosed">${yesNoBadge(s.casePaperClosed)}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+};
+POST_RENDER['rpt-completed'] = () => { attachSort('rcTable'); attachSearch('rcSearch','rcTable'); };
+
+ROUTES['rpt-itr-report'] = () => {
+  const fys = getFYList();
+  const fy = window._rptFY || fys.slice(-1)[0];
+  window._rptFY = fy;
+  const clients = getScopedClients();
+  const status = KV.get('itrStatus')||{};
+  const inward = KV.get('inward')||{};
+  const users = KV.get('users')||[];
+  const alloc = KV.get('allocations')||{};
+  return `
+    ${reportHeader('ITR Report · FY ' + fy)}
+    <div class="card no-print" style="margin-bottom:14px">
+      <div class="form-group" style="margin:0"><label>Financial Year</label>
+        <select class="form-select" onchange="window._rptFY=this.value;navigate(currentPage)" style="max-width:200px">
+          ${fys.map(f=>`<option ${f===fy?'selected':''}>${f}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <div class="table-toolbar no-print">
+        <div class="toolbar-left"><input id="rirSearch" class="search-input" placeholder="Search…"><span class="badge badge-info">${clients.length} clients</span></div>
+        <div class="toolbar-right"><button class="btn btn-secondary btn-sm" onclick="window.print()">🖨 Print</button><button class="btn btn-secondary btn-sm" onclick="exportTableExcel('rirTable','itr_report_${fy}')">⤓ Excel</button></div>
+      </div>
+      <table id="rirTable">
+        <thead><tr><th data-sort="sn">SN</th><th data-sort="fileNo">File No</th><th data-sort="name">Client</th>${isAdmin()?`<th data-sort="staff">Staff</th>`:''}<th data-sort="inward">Data In</th><th data-sort="status">Status</th><th data-sort="pendingWith">Pending With</th><th data-sort="fileDate">File Date</th><th data-sort="itrSet">ITR Set</th><th data-sort="caseClosed">Case Closed</th></tr></thead>
+        <tbody>
+          ${clients.length===0?`<tr><td colspan="${isAdmin()?10:9}"><div class="empty-state">No clients</div></td></tr>`:
+          clients.map((c,i)=>{
+            const s = status[c.id]?.[fy]||{};
+            const inw = inward[c.id]||{};
+            return `<tr>
+              <td data-val="sn">${i+1}</td>
+              <td data-val="fileNo"><strong>${esc(c.fileNo)}</strong></td>
+              <td data-val="name">${esc(c.name)}</td>
+              ${isAdmin()?`<td data-val="staff">${esc(users.find(u=>u.id===alloc[c.id])?.name||'—')}</td>`:''}
+              <td data-val="inward" data-sortval="${inw.received?1:0}">${inw.received?'<span class="badge badge-success">Yes</span>':'<span class="badge badge-neutral">No</span>'}</td>
+              <td data-val="status">${statusBadge(s.status)}</td>
+              <td data-val="pendingWith">${esc(s.pendingWith||'—')}</td>
+              <td data-val="fileDate">${fmtDate(s.fileDate)}</td>
+              <td data-val="itrSet">${yesNoBadge(s.itrSet)}</td>
+              <td data-val="caseClosed">${yesNoBadge(s.casePaperClosed)}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+};
+POST_RENDER['rpt-itr-report'] = () => { attachSort('rirTable'); attachSearch('rirSearch','rirTable'); };
+
+ROUTES['rpt-staff'] = () => {
+  if(!isAdmin()) return adminOnly();
+  const fys = getFYList();
+  const fy = window._rptFY || fys.slice(-1)[0];
+  window._rptFY = fy;
+  const clients = KV.get('clients')||[];
+  const users = (KV.get('users')||[]).filter(u=>u.role==='staff');
+  const status = KV.get('itrStatus')||{};
+  const inward = KV.get('inward')||{};
+  const alloc = KV.get('allocations')||{};
+  const rows = users.map(u=>{
+    const mine = clients.filter(c=>alloc[c.id]===u.id);
+    const received = mine.filter(c=>inward[c.id]?.received).length;
+    const wip = mine.filter(c=>status[c.id]?.[fy]?.status==='WIP').length;
+    const pending = mine.filter(c=>{const s=status[c.id]?.[fy]?.status;return !s||s==='Pending'}).length;
+    const completed = mine.filter(c=>status[c.id]?.[fy]?.status==='Complete').length;
+    const closed = mine.filter(c=>status[c.id]?.[fy]?.casePaperClosed==='Yes').length;
+    return {u, total:mine.length, received, wip, pending, completed, closed};
+  });
+  return `
+    ${reportHeader('Staff-wise Report · FY ' + fy)}
+    <div class="card no-print" style="margin-bottom:14px">
+      <div class="form-group" style="margin:0"><label>Financial Year</label>
+        <select class="form-select" onchange="window._rptFY=this.value;navigate(currentPage)" style="max-width:200px">
+          ${fys.map(f=>`<option ${f===fy?'selected':''}>${f}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <div class="table-toolbar no-print">
+        <div class="toolbar-left"><input id="rsSearch" class="search-input" placeholder="Search staff…"><span class="badge badge-info">${users.length} staff</span></div>
+        <div class="toolbar-right"><button class="btn btn-secondary btn-sm" onclick="window.print()">🖨 Print</button><button class="btn btn-secondary btn-sm" onclick="exportTableExcel('rsTable','staff_report_${fy}')">⤓ Excel</button></div>
+      </div>
+      <table id="rsTable">
+        <thead><tr><th data-sort="sn">SN</th><th data-sort="staff">Staff</th><th data-sort="total">Allocated</th><th data-sort="received">Data Received</th><th data-sort="wip">WIP</th><th data-sort="pending">Pending</th><th data-sort="completed">Completed</th><th data-sort="closed">Case Closed</th></tr></thead>
+        <tbody>
+          ${rows.length===0?`<tr><td colspan="8"><div class="empty-state">No staff yet</div></td></tr>`:
+          rows.map((r,i)=>`<tr>
+            <td data-val="sn">${i+1}</td>
+            <td data-val="staff"><strong>${esc(r.u.name)}</strong><div style="font-size:11px;color:var(--text-muted)">${esc(r.u.username)}</div></td>
+            <td data-val="total">${r.total}</td>
+            <td data-val="received">${r.received}</td>
+            <td data-val="wip">${r.wip}</td>
+            <td data-val="pending">${r.pending}</td>
+            <td data-val="completed"><span class="badge badge-success">${r.completed}</span></td>
+            <td data-val="closed">${r.closed}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+};
+POST_RENDER['rpt-staff'] = () => { attachSort('rsTable'); attachSearch('rsSearch','rsTable'); };
+
+function statusBadge(s){
+  if(s==='Complete') return '<span class="badge badge-success">Complete</span>';
+  if(s==='WIP') return '<span class="badge badge-warning">WIP</span>';
+  if(s==='Pending') return '<span class="badge badge-danger">Pending</span>';
+  return '<span class="badge badge-neutral">—</span>';
+}
+function yesNoBadge(v){
+  if(v==='Yes') return '<span class="badge badge-success">Yes</span>';
+  if(v==='No') return '<span class="badge badge-neutral">No</span>';
+  return '<span class="badge badge-neutral">—</span>';
+}
+
+function exportTableExcel(tableId, name){
+  const wb = XLSX.utils.table_to_book(document.getElementById(tableId));
+  XLSX.writeFile(wb, `${name}_${new Date().toISOString().slice(0,10)}.xlsx`);
+}
+
+/* ---------- BACKUP ---------- */
+ROUTES.backup = () => {
+  if(!isAdmin()) return adminOnly();
+  return `
+    <div class="alert alert-warning">
+      <strong>Important:</strong> All data is stored in this browser. To safeguard against accidental loss (clearing browser data, switching computers), export a backup regularly.
+      Uploaded ITR PDFs are stored separately and are <strong>not</strong> included in the JSON backup — keep the original PDFs in your filesystem too.
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Backup & Restore</div></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+        <button class="btn btn-primary" onclick="exportBackup()">⤓ Export Backup (JSON)</button>
+        <label class="btn btn-warning" style="cursor:pointer">📥 Import Backup<input type="file" hidden accept=".json" onchange="importBackup(this)"></label>
+        <button class="btn btn-danger" onclick="resetAll()">⚠ Reset All Data</button>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);line-height:1.7">
+        <strong>What's in the JSON backup:</strong> client master, staff master, allocations, inward records, ITR status entries, and user accounts.<br>
+        <strong>What's NOT in the JSON backup:</strong> uploaded ITR PDF files (stored in IndexedDB; keep original files separately).
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <div class="card-header"><div class="card-title">Storage Usage</div></div>
+      <div id="storageDetails" style="font-size:13px;line-height:1.9"></div>
+    </div>
+  `;
+};
+POST_RENDER.backup = async () => {
+  const used = await FileDB.usedBytes();
+  const lsBytes = KV.size();
+  document.getElementById('storageDetails').innerHTML = `
+    <div>Master & status data: <strong>${fmtBytes(lsBytes)}</strong></div>
+    <div>Uploaded files (IndexedDB): <strong>${fmtBytes(used)}</strong> / 10 GB</div>
+    <div>Combined: <strong>${fmtBytes(lsBytes+used)}</strong></div>
+  `;
+};
+
+function exportBackup(){
+  const data = {
+    version: 1,
+    exported: new Date().toISOString(),
+    users: KV.get('users')||[],
+    clients: KV.get('clients')||[],
+    allocations: KV.get('allocations')||{},
+    inward: KV.get('inward')||{},
+    itrStatus: KV.get('itrStatus')||{},
+    seq: KV.get('seq')||{},
+  };
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `pariman_backup_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  toast('Backup exported','success');
+}
+async function importBackup(input){
+  const f = input.files[0]; if(!f) return;
+  try{
+    const text = await f.text();
+    const data = JSON.parse(text);
+    if(!data.version){toast('Invalid backup file','error');return}
+    if(!confirm('This will REPLACE all current data with the backup. Continue?')) return;
+    KV.set('users', data.users||[]);
+    KV.set('clients', data.clients||[]);
+    KV.set('allocations', data.allocations||{});
+    KV.set('inward', data.inward||{});
+    KV.set('itrStatus', data.itrStatus||{});
+    KV.set('seq', data.seq||{client:0,staff:0});
+    toast('Backup restored','success');
+    setTimeout(()=>location.reload(), 800);
+  }catch(e){toast('Failed to restore: '+e.message,'error')}
+}
+function resetAll(){
+  const c = prompt('Type RESET to wipe all data:');
+  if(c!=='RESET') return;
+  ['users','clients','allocations','inward','itrStatus','seq','session'].forEach(k=>KV.del(k));
+  // also clear server-stored files
+  fetch('/api/files-all', {method:'DELETE'}).catch(()=>{});
+  toast('All data wiped','success');
+  setTimeout(()=>location.reload(), 800);
+}
+
+/* ---------- ADMIN ONLY GUARD ---------- */
+function adminOnly(){
+  return `<div class="card"><div class="empty-state"><div class="empty-state-icon">🔒</div><div>This page is available to administrators only.</div></div></div>`;
+}
+
+/* ---------- STORAGE INDICATOR ---------- */
+async function updateStorageIndicator(){
+  try{
+    const used = await FileDB.usedBytes();
+    const lsBytes = KV.size();
+    const total = used + lsBytes;
+    const el = document.getElementById('storageIndicator');
+    if(el) el.textContent = `Storage: ${fmtBytes(total)} / 10 GB`;
+  }catch(e){}
+}
+
+/* ---------- BOOT ---------- */
+function bootApp(){
+  const u = currentUser(); if(!u){logout();return}
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  document.getElementById('userName').textContent = u.name;
+  document.getElementById('userRole').textContent = u.role==='admin'?'Administrator':'Staff';
+  document.getElementById('userAvatar').textContent = u.name.charAt(0).toUpperCase();
+  document.getElementById('sidebarLogo').innerHTML = LOGO_SVG.replace('width="84" height="84"','width="64" height="64"');
+  renderSidebar();
+  navigate('dashboard');
+}
+
+/* ---------- INIT ---------- */
+document.addEventListener('DOMContentLoaded', async () => {
+  document.getElementById('loginLogoSvg').innerHTML = LOGO_SVG;
+  await KV.preload();
+  initData();
+  if(currentUser()) bootApp();
+});
+</script>
+</body>
+</html>
