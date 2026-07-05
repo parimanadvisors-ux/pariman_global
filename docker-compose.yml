@@ -1,0 +1,63 @@
+version: '3.8'
+ 
+
+services:
+  # The "Front Door" - Routes traffic to different services
+  nginx:
+    image: nginx:latest
+    container_name: pariman-nginx
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    ports:
+      - "80:80"
+    depends_on:
+      - portal
+      - itr
+      - policy
+    restart: always
+
+  # The Database
+  db:
+    image: postgres:15
+    container_name: pariman-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: pariman_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+  # The Master Portal (The Dashboard with Cards)
+  portal:
+    build: ./services/auth-main
+    container_name: pariman-portal
+    # No ports needed here; Nginx talks to it internally
+    environment:
+      - SECRET_KEY=master_secret
+    restart: on-failure
+
+  # The ITR Service
+  itr:
+    build: ./services/service-itr
+    container_name: pariman-itr
+    # No ports needed here; Nginx talks to it internally
+    environment:
+      - DATABASE_URL=postgresql://admin:password123@db:5432/pariman_db
+      - SECRET_KEY=master_secret
+    depends_on:
+      - db
+    restart: on-failure
+
+  policy:
+    build: ./services/service-policy
+    container_name: pariman-policy
+    environment:
+      - DATABASE_URL=postgresql://admin:password123@db:5432/pariman_db
+      - SECRET_KEY=policy_secret_key
+    depends_on:
+      - db
+    restart: on-failure
+
+volumes:
+  postgres_data:
