@@ -33,6 +33,11 @@ class User(db.Model):
     password_hash = db.Column(db.String(255), nullable=False)
     is_active = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    
+    # NEW: Centralized SSO Employee Profile Columns
+    name = db.Column(db.String(100), nullable=True)
+    designation = db.Column(db.String(100), nullable=True)
+    mobile = db.Column(db.String(50), nullable=True)
 
 class UserRole(db.Model):
     __tablename__ = 'user_roles'
