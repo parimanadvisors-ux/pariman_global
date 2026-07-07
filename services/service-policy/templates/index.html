@@ -425,9 +425,7 @@ table.data tr:hover td{background:#FAFBFD}
 <div id="app" class="show">
   <aside id="sidebar">
     <div class="side-brand">
-      <div class="brand-logo brand-logo-emblem">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-      </div>
+      <div class="brand-logo brand-logo-emblem" style="background:transparent;"><img src="/static/common/logo.jpeg" style="width:100%;height:100%;object-fit:contain;" alt="Logo"></div>
       <div class="side-brand-text">
         <h2>POPMS</h2>
         <p>Pariman Global Consulting</p>
@@ -437,7 +435,7 @@ table.data tr:hover td{background:#FAFBFD}
     <div class="side-footer">
       <button class="signout" id="signoutBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        <span>Sign out</span>
+        <span>Return to Master</span>
       </button>
     </div>
   </aside>
@@ -599,7 +597,7 @@ function fileToBase64(file){
 
 /* ---------- AUTH (INJECTED SSO) ---------- */
 $('#signoutBtn').addEventListener('click',()=>{
-  window.location.href = '/logout';
+  window.location.href = '/';
 });
 
 $('#menuToggle').addEventListener('click',()=>{

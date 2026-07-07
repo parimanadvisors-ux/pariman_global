@@ -15,6 +15,7 @@ services:
     volumes:
       - ./nginx:/etc/nginx/conf.d:ro
       - shared_assets:/static/common:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     ports:
       - "80:80"
       - "443:443"

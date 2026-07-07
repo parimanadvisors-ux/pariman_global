@@ -420,16 +420,36 @@ async function loadBackendData() {
 }
 
 /* ---------- AUTH (INJECTED BY FLASK) ---------- */
+// 1. Replaced localStorage session check with Jinja2 injection
 function currentUser(){
   const email = "{{ session.get('email', 'admin@parimanglobal.com') }}";
+  const role = "{{ session.get('role', 'SuperAdmin') }}";
+  const jsRole = (role === 'SuperAdmin') ? 'admin' : 'staff';
+  
+  // Isolate staff scope by mapping their SSO email to the imported legacy users
+  const localUsers = KV.get('users') || [];
+  const matchedUser = localUsers.find(u => 
+    (u.username && u.username.toLowerCase() === email.toLowerCase()) || 
+    (u.email && u.email.toLowerCase() === email.toLowerCase())
+  );
+  
   const name = email.split('@')[0];
   return {
-    id: 'admin', 
+    id: matchedUser ? matchedUser.id : 'admin',
     username: email,
     name: name.charAt(0).toUpperCase() + name.slice(1),
-    role: 'admin' 
+    role: jsRole
   };
 }
+
+
+
+
+
+
+
+
+
 
 function isAdmin(){return currentUser()?.role==='admin'}
 
@@ -1958,7 +1978,7 @@ function bootApp(){
   document.getElementById('userName').textContent = u.name;
   document.getElementById('userRole').textContent = u.role==='admin'?'Administrator':'Staff';
   document.getElementById('userAvatar').textContent = u.name.charAt(0).toUpperCase();
-  document.getElementById('sidebarLogo').innerHTML = LOGO_SVG.replace('width="84" height="84"','width="64" height="64"');
+  document.getElementById('sidebarLogo').innerHTML = '<img src="/static/common/logo.jpeg" style="width:100%; height:100%; object-fit:contain;" alt="Logo">';
   renderSidebar();
   navigate('dashboard');
 }
