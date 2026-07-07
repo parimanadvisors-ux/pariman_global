@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Master - Pariman Global</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-blue: #1B3A6B;
+            --brand-gold: #C99A3B;
+            --brand-green: #3FAE56;
+            --bg: #F4F6FB;
+            --text: #1A202C;
+            --border: #e2e8f0;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 40px 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 4px solid var(--brand-blue); }
+        h1 { color: var(--brand-blue); margin-top: 0; display: flex; justify-content: space-between; align-items: center; }
+        .alert { padding: 12px; border-radius: 6px; margin-bottom: 20px; font-size: 14px; }
+        .alert-info { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+        .alert-success { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+        .alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 13px; color: #475569; }
+        input[type="email"], input[type="password"], select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; box-sizing: border-box; }
+        
+        .btn { background: var(--brand-blue); color: white; border: none; padding: 10px 18px; font-weight: 600; border-radius: 6px; cursor: pointer; font-size: 14px; }
+        .btn:hover { background: #122747; }
+        .btn-danger { background: #ef4444; }
+        .btn-danger:hover { background: #dc2626; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 30px; font-size: 14px; }
+        th { text-align: left; background: #f8fafc; padding: 12px; border-bottom: 2px solid var(--border); color: #475569; }
+        td { padding: 12px; border-bottom: 1px solid var(--border); }
+        .badge { padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+        .badge-active { background: #d1fae5; color: #065f46; }
+        .badge-inactive { background: #fee2e2; color: #991b1b; }
+        
+        .back-link { display: inline-block; margin-bottom: 20px; color: var(--text); text-decoration: none; font-size: 14px; font-weight: 600; }
+        .back-link:hover { color: var(--brand-blue); text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="/" class="back-link">← Back to Master Portal</a>
+    
+    <h1>
+        Staff Master & Roles
+    </h1>
+    <div class="alert alert-info">
+        Create and manage credentials for your employees. These credentials act as a Single Sign-On (SSO) for all Pariman services.
+    </div>
+
+    <!-- Feedback Message Box -->
+    {% if error %}
+        <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
+    {% if success %}
+        <div class="alert alert-success">{{ success }}</div>
+    {% endif %}
+
+    <!-- Add Staff Form -->
+    <div style="background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 30px;">
+        <h3 style="margin-top: 0; color: var(--brand-blue); font-size: 16px;">Add New Staff Member</h3>
+        <form method="POST" action="/admin/staff/add">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Email Address (Username)</label>
+                    <input type="email" name="email" required placeholder="staff@parimanglobal.com">
+                </div>
+                <div class="form-group">
+                    <label>Temporary Password</label>
+                    <input type="password" name="password" required placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select name="role_id" required>
+                        {% for role in roles %}
+                            {% if role.name != 'SuperAdmin' %}
+                                <option value="{{ role.id }}">{{ role.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn">Create Staff Account</button>
+        </form>
+    </div>
+
+    <!-- Staff List Table -->
+    <h3>Current Personnel</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Email / Username</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th style="text-align: right;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in users %}
+            <tr>
+                <td><strong>{{ u.email }}</strong></td>
+                <td>{{ u.role_name }}</td>
+                <td>
+                    {% if u.is_active %}
+                        <span class="badge badge-active">Active</span>
+                    {% else %}
+                        <span class="badge badge-inactive">Disabled</span>
+                    {% endif %}
+                </td>
+                <td>{{ u.created_at.strftime('%Y-%m-%d') }}</td>
+                <td style="text-align: right;">
+                    <!-- Prevent disabling the SuperAdmin -->
+                    {% if u.role_name != 'SuperAdmin' %}
+                        <form method="POST" action="/admin/staff/toggle" style="display:inline;">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="hidden" name="user_id" value="{{ u.id }}">
+                            <button type="submit" class="btn {{ 'btn-danger' if u.is_active else '' }}" style="padding: 6px 12px; font-size: 12px;">
+                                {{ 'Disable' if u.is_active else 'Enable' }}
+                            </button>
+                        </form>
+                    {% else %}
+                        <span style="font-size: 12px; color: #94a3b8;">Root Admin</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" style="text-align: center; color: #64748b;">No staff accounts created yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

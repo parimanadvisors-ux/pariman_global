@@ -1,63 +1,141 @@
-version: '3.8'
- 
+# Reusable logging configuration to prevent disk exhaustion
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "10m"
+    max-file: "3"
 
 services:
-  # The "Front Door" - Routes traffic to different services
+  # ---------------- Infrastructure ----------------
   nginx:
-    image: nginx:latest
+    image: nginx:alpine
     container_name: pariman-nginx
+    restart: always
+    logging: *default-logging
     volumes:
-      - ./nginx:/etc/nginx/conf.d
+      - ./nginx:/etc/nginx/conf.d:ro
+      - shared_assets:/static/common:ro
     ports:
       - "80:80"
+      - "443:443"
     depends_on:
       - portal
       - itr
       - policy
-    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
 
-  # The Database
   db:
-    image: postgres:15
+    image: postgres:15-alpine
     container_name: pariman-db
+    restart: always
+    logging: *default-logging
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password123
-      POSTGRES_DB: pariman_db
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    restart: always
+    deploy:
+      resources:
+        reservations:
+          memory: 512M
+        limits:
+          cpus: '1.0'
+          memory: 1024M
 
-  # The Master Portal (The Dashboard with Cards)
+  redis:
+    image: redis:7-alpine
+    container_name: pariman-redis
+    restart: always
+    logging: *default-logging
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    deploy:
+      resources:
+        reservations:
+          memory: 128M
+        limits:
+          cpus: '0.5'
+          memory: 256M
+
+  adminer:
+    image: adminer:latest
+    container_name: pariman-adminer
+    restart: always
+    logging: *default-logging
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    depends_on:
+      - db
+    # No ports exposed to host; Nginx will proxy this
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
+
+  # ---------------- Application Services ----------------
   portal:
     build: ./services/auth-main
     container_name: pariman-portal
-    # No ports needed here; Nginx talks to it internally
-    environment:
-      - SECRET_KEY=master_secret
     restart: on-failure
+    logging: *default-logging
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379/0
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - ROOT_ADMIN_USER=${ROOT_ADMIN_USER}
+      - ROOT_ADMIN_PASS_HASH=${ROOT_ADMIN_PASS_HASH}
+    depends_on:
+      - db
+      - redis
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
 
-  # The ITR Service
   itr:
     build: ./services/service-itr
     container_name: pariman-itr
-    # No ports needed here; Nginx talks to it internally
+    restart: on-failure
+    logging: *default-logging
     environment:
-      - DATABASE_URL=postgresql://admin:password123@db:5432/pariman_db
-      - SECRET_KEY=master_secret
+      - SECRET_KEY=${SECRET_KEY}
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379/0
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - ROOT_ADMIN_USER=${ROOT_ADMIN_USER}
     depends_on:
       - db
-    restart: on-failure
+      - redis
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1024M
 
   policy:
     build: ./services/service-policy
     container_name: pariman-policy
+    restart: on-failure
+    logging: *default-logging
     environment:
-      - DATABASE_URL=postgresql://admin:password123@db:5432/pariman_db
-      - SECRET_KEY=policy_secret_key
+      - SECRET_KEY=${SECRET_KEY}
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379/0
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - ROOT_ADMIN_USER=${ROOT_ADMIN_USER}
     depends_on:
       - db
-    restart: on-failure
+      - redis
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
 
 volumes:
   postgres_data:
+  shared_assets:

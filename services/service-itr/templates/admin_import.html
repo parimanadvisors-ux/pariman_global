@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITR Data Import - Pariman Global</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-blue: #1B3A6B;
+            --brand-gold: #C99A3B;
+            --bg: #F4F6FB;
+            --text: #1A202C;
+            --border: #e2e8f0;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 40px 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 4px solid var(--brand-gold); }
+        h1 { color: var(--brand-blue); margin-top: 0; }
+        .alert { padding: 12px; border-radius: 6px; margin-bottom: 20px; font-size: 14px; }
+        .alert-info { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+        .alert-success { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+        .alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; }
+        input[type="file"] { width: 100%; padding: 10px; border: 1px dashed var(--border); border-radius: 6px; background: #fafafa; }
+        .btn { background: var(--brand-blue); color: white; border: none; padding: 12px 24px; font-weight: 600; border-radius: 6px; cursor: pointer; font-size: 16px; width: 100%; }
+        .btn:hover { background: #122747; }
+        .back-link { display: inline-block; margin-bottom: 20px; color: var(--text); text-decoration: none; font-size: 14px; font-weight: 600; }
+        .back-link:hover { color: var(--brand-blue); text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="/" class="back-link">← Back to Master Portal</a>
+    
+    <h1>ITR Data Import</h1>
+    <div class="alert alert-info">
+        <strong>Administrator Access:</strong> Upload legacy JSON backups or structured Excel files to populate the ITR database.
+    </div>
+
+    <div id="messageBox"></div>
+
+    <form id="uploadForm">
+        <div class="form-group">
+            <label for="dataFile">Select Data File (JSON or XLSX)</label>
+            <input type="file" id="dataFile" accept=".json,.xlsx,.xls" required>
+        </div>
+        <button type="submit" class="btn">Upload and Parse Data</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fileInput = document.getElementById('dataFile');
+        const file = fileInput.files[0];
+        const msgBox = document.getElementById('messageBox');
+        
+        if (!file) {
+            msgBox.innerHTML = '<div class="alert alert-error">Please select a file.</div>';
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        msgBox.innerHTML = '<div class="alert alert-info">Uploading and parsing... please wait.</div>';
+        
+        try {
+            const response = await fetch('/itr/admin/import', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            
+            if (result.success) {
+                msgBox.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
+                fileInput.value = ''; // clear form
+            } else {
+                msgBox.innerHTML = `<div class="alert alert-error">${result.message}</div>`;
+            }
+        } catch (error) {
+            msgBox.innerHTML = '<div class="alert alert-error">A network error occurred.</div>';
+        }
+    });
+</script>
+
+</body>
+</html>

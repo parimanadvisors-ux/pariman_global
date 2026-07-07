@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pariman Global Consulting Consulting — ITR Management</title>
+<title>Pariman Global Consulting — ITR Management</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
@@ -47,67 +47,6 @@ body{
 .brand-text{font-weight:800;color:var(--brand-blue);letter-spacing:-.5px}
 .brand-tagline{color:var(--brand-gold);font-style:italic;font-size:11px;font-weight:600;letter-spacing:.3px}
 
-/* ---------- LOGIN ---------- */
-.login-wrap{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#1B3A6B 0%,#2E5C9E 50%,#3FAE56 100%);
-  padding:20px;position:relative;overflow:hidden;
-}
-.login-wrap::before{
-  content:"";position:absolute;width:600px;height:600px;border-radius:50%;
-  background:radial-gradient(circle,rgba(201,154,59,.25),transparent 70%);
-  top:-200px;right:-200px;
-}
-.login-wrap::after{
-  content:"";position:absolute;width:500px;height:500px;border-radius:50%;
-  background:radial-gradient(circle,rgba(63,174,86,.2),transparent 70%);
-  bottom:-150px;left:-150px;
-}
-.login-card{
-  background:#fff;border-radius:20px;padding:48px 44px;width:100%;max-width:440px;
-  box-shadow:0 25px 60px rgba(0,0,0,.25);position:relative;z-index:1;
-}
-.login-logo{display:flex;flex-direction:column;align-items:center;margin-bottom:28px}
-.login-logo .name{font-size:22px;margin-top:14px}
-.login-logo .sub{font-size:11px;margin-top:2px}
-.login-title{font-size:18px;font-weight:700;text-align:center;color:var(--text);margin-bottom:6px}
-.login-sub{font-size:13px;text-align:center;color:var(--text-muted);margin-bottom:24px}
-.form-group{margin-bottom:16px}
-.form-group label{display:block;font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
-.form-input,.form-select,.form-textarea{
-  width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;
-  font-size:14px;font-family:inherit;background:#fff;color:var(--text);
-  transition:all .15s;
-}
-.form-input:focus,.form-select:focus,.form-textarea:focus{
-  outline:none;border-color:var(--brand-blue);box-shadow:0 0 0 3px rgba(27,58,107,.1);
-}
-.form-textarea{resize:vertical;min-height:80px}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:6px;
-  padding:10px 18px;border:none;border-radius:8px;font-size:14px;font-weight:600;
-  cursor:pointer;transition:all .15s;text-decoration:none;font-family:inherit;
-}
-.btn-primary{background:var(--brand-blue);color:#fff}
-.btn-primary:hover{background:var(--brand-blue-dark)}
-.btn-success{background:var(--brand-green);color:#fff}
-.btn-success:hover{background:var(--brand-green-dark)}
-.btn-warning{background:var(--brand-gold);color:#fff}
-.btn-warning:hover{background:#B0832D}
-.btn-danger{background:var(--danger);color:#fff}
-.btn-danger:hover{background:#B91C1C}
-.btn-secondary{background:#fff;color:var(--text);border:1.5px solid var(--border)}
-.btn-secondary:hover{background:var(--surface-2);border-color:var(--text-muted)}
-.btn-sm{padding:6px 12px;font-size:12px}
-.btn-icon{padding:7px 9px;font-size:12px}
-.btn-block{width:100%}
-.btn-login{padding:13px;font-size:15px;background:linear-gradient(135deg,var(--brand-blue),var(--brand-blue-light));margin-top:8px}
-.login-hint{
-  margin-top:18px;padding:10px 12px;background:var(--surface-2);border-radius:8px;
-  font-size:11px;color:var(--text-muted);text-align:center;line-height:1.6;
-}
-.login-hint code{background:#fff;padding:2px 6px;border-radius:4px;border:1px solid var(--border);font-family:'JetBrains Mono',monospace;color:var(--brand-blue);font-weight:600}
-
 /* ---------- APP LAYOUT ---------- */
 .app{display:flex;min-height:100vh}
 .sidebar{
@@ -147,6 +86,37 @@ body{
 .storage-indicator{font-size:11px;color:var(--text-muted);background:var(--surface-2);padding:4px 10px;border-radius:6px;border:1px solid var(--border)}
 
 .content{padding:24px 28px;flex:1}
+
+/* ---------- BUTTONS, FORMS, COMMON ---------- */
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.form-input,.form-select,.form-textarea{
+  width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;
+  font-size:14px;font-family:inherit;background:#fff;color:var(--text);
+  transition:all .15s;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{
+  outline:none;border-color:var(--brand-blue);box-shadow:0 0 0 3px rgba(27,58,107,.1);
+}
+.form-textarea{resize:vertical;min-height:80px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:10px 18px;border:none;border-radius:8px;font-size:14px;font-weight:600;
+  cursor:pointer;transition:all .15s;text-decoration:none;font-family:inherit;
+}
+.btn-primary{background:var(--brand-blue);color:#fff}
+.btn-primary:hover{background:var(--brand-blue-dark)}
+.btn-success{background:var(--brand-green);color:#fff}
+.btn-success:hover{background:var(--brand-green-dark)}
+.btn-warning{background:var(--brand-gold);color:#fff}
+.btn-warning:hover{background:#B0832D}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-danger:hover{background:#B91C1C}
+.btn-secondary{background:#fff;color:var(--text);border:1.5px solid var(--border)}
+.btn-secondary:hover{background:var(--surface-2);border-color:var(--text-muted)}
+.btn-sm{padding:6px 12px;font-size:12px}
+.btn-icon{padding:7px 9px;font-size:12px}
+.btn-block{width:100%}
 
 /* ---------- DASHBOARD ---------- */
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
@@ -292,40 +262,12 @@ tbody tr:last-child td{border-bottom:none}
 </head>
 <body>
 
-<!-- ===================== LOGIN ===================== -->
-<div id="loginScreen" class="login-wrap">
-  <div class="login-card">
-    <div class="login-logo">
-      <div id="loginLogoSvg"></div>
-      <div class="brand-text name">Pariman Global Consulting Consulting</div>
-      <div class="brand-tagline sub">Growth, Governance, Global Standards</div>
-    </div>
-    <div class="login-title">ITR Management System</div>
-    <div class="login-sub">Sign in to access your dashboard</div>
-    <form id="loginForm" onsubmit="handleLogin(event)">
-      <div class="form-group">
-        <label>Username</label>
-        <input type="text" id="loginUser" class="form-input" autocomplete="username" required>
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="loginPass" class="form-input" autocomplete="current-password" required>
-      </div>
-      <button type="submit" class="btn btn-primary btn-block btn-login">Sign In</button>
-    </form>
-    <div class="login-hint">
-      First time? Default admin login —<br>
-      User: <code>admin</code> &nbsp; Password: <code>admin123</code>
-    </div>
-  </div>
-</div>
-
 <!-- ===================== APP ===================== -->
-<div id="app" class="app" style="display:none">
+<div id="app" class="app">
   <aside class="sidebar">
     <div class="sidebar-brand">
       <div id="sidebarLogo"></div>
-      <div class="name">Pariman Global Consulting</div>
+      <div class="name">Pariman Global</div>
       <div class="sub">Growth · Governance · Global Standards</div>
     </div>
     <div class="sidebar-user">
@@ -337,7 +279,7 @@ tbody tr:last-child td{border-bottom:none}
     </div>
     <nav class="sidebar-nav" id="sidebarNav"></nav>
     <div class="sidebar-footer">
-      <button class="btn btn-secondary btn-block" onclick="logout()" style="background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.15)">↩  Logout</button>
+      <button class="btn btn-secondary btn-block" onclick="logout()" style="background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.15)">↩  Return to Master</button>
     </div>
   </aside>
   <main class="main">
@@ -347,7 +289,7 @@ tbody tr:last-child td{border-bottom:none}
         <div class="topbar-breadcrumb" id="pageBreadcrumb">Home</div>
       </div>
       <div class="topbar-actions">
-        <div class="storage-indicator" id="storageIndicator">Storage: 0 MB / 10 GB</div>
+        <div class="storage-indicator" id="storageIndicator">Storage: Active</div>
       </div>
     </div>
     <div class="content" id="pageContent"></div>
@@ -364,13 +306,10 @@ tbody tr:last-child td{border-bottom:none}
 
 <script>
 /* ============================================================
-   Pariman Global Consulting CONSULTING — ITR MANAGEMENT SYSTEM
-   Single-file HTML app with localStorage + IndexedDB persistence.
-   Download this file and open in any browser — your data stays
-   in your browser. Backups: use Admin > Backup to export JSON.
+   PARIMAN GLOBAL CONSULTING — ITR MANAGEMENT SYSTEM
+   Bridged to PostgreSQL Backend Database
    ============================================================ */
 
-/* ---------- LOGO (recreated SVG inspired by the brand mark) ---------- */
 const LOGO_SVG = `<svg class="logo-svg" width="84" height="84" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
@@ -386,140 +325,116 @@ const LOGO_SVG = `<svg class="logo-svg" width="84" height="84" viewBox="0 0 200 
       <stop offset="100%" stop-color="#E2B85C"/>
     </linearGradient>
   </defs>
-  <!-- Circle background -->
   <circle cx="100" cy="100" r="92" fill="url(#bgGrad)"/>
-  <!-- Green arrow (left curving up) -->
   <path d="M 50 130 Q 50 70 110 60 L 105 50 L 130 65 L 115 88 L 110 78 Q 70 85 70 130 Z" fill="url(#grnGrad)" opacity="0.95"/>
-  <!-- Gold arrow (bottom curving) -->
   <path d="M 150 90 Q 150 150 90 158 L 95 168 L 70 153 L 85 130 L 90 140 Q 130 132 130 90 Z" fill="url(#goldGrad)" opacity="0.95"/>
-  <!-- Blue arrow up -->
   <path d="M 135 145 L 135 60 L 120 60 L 142 35 L 165 60 L 150 60 L 150 145 Z" fill="#3FAE56" opacity="0.9"/>
-  <!-- Letter P -->
   <g transform="translate(70,55)">
     <path d="M 0 90 L 0 0 L 35 0 Q 60 0 60 25 Q 60 50 35 50 L 18 50 L 18 90 Z" fill="#E2B85C"/>
     <path d="M 18 14 L 18 36 L 32 36 Q 42 36 42 25 Q 42 14 32 14 Z" fill="url(#bgGrad)"/>
   </g>
 </svg>`;
 
-/* ---------- STORAGE ABSTRACTION (server-synced via Postgres) ---------- */
+/* ---------- POSTGRESQL DATA ABSTRACTION ---------- */
+let memCache = {};
+
 const KV = {
-  _cache: {},
-  _loaded: false,
-  async preload(){
-    try{
-      const res = await fetch('/api/kv');
-      const data = await res.json();
-      this._cache = data || {};
-    }catch(e){ /* offline fallback: keep whatever is in _cache/localStorage */ }
-    this._loaded = true;
+  get(k, def=null) {
+    return memCache[k] !== undefined ? memCache[k] : def;
   },
-  get(k, def=null){
-    if(k in this._cache) return this._cache[k];
-    try{const v=localStorage.getItem('pgc:'+k);return v===null?def:JSON.parse(v)}catch(e){return def}
-  },
-  set(k, v){
-    this._cache[k] = v;
-    try{localStorage.setItem('pgc:'+k, JSON.stringify(v));}catch(e){}
-    fetch('/api/kv/'+encodeURIComponent(k), {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({value:v})
-    }).catch(()=>toast('Could not sync to server (offline?)','error'));
+  set(k, v) {
+    memCache[k] = v;
+    // Fire and forget to Postgres backend
+    fetch('/itr/api/kv/' + encodeURIComponent(k), {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({value: v})
+    }).catch(console.error);
     return true;
   },
-  del(k){
-    delete this._cache[k];
-    localStorage.removeItem('pgc:'+k);
-    fetch('/api/kv/'+encodeURIComponent(k), {method:'DELETE'}).catch(()=>{});
+  del(k) {
+    delete memCache[k];
+    fetch('/itr/api/kv/' + encodeURIComponent(k), { method: 'DELETE' }).catch(console.error);
   },
-  size(){
-    let total=0;
-    for(let i=0;i<localStorage.length;i++){
-      const k=localStorage.key(i);
-      if(k && k.startsWith('pgc:')) total += (localStorage.getItem(k)||'').length;
-    }
-    return total;
-  }
+  size() { return 0; } // Legacy compatibility
 };
 
-/* ---------- SERVER-BACKED FILE STORAGE ---------- */
+/* ---------- POSTGRESQL FILE STORAGE ---------- */
 const FileDB = {
-  TOTAL_QUOTA: 1 * 1024 * 1024 * 1024, // 1 GB practical quota on free Postgres tier
-  MAX_FILE: 5 * 1024 * 1024, // 5 MB
-  async _blobToBase64(blob){
-    return new Promise((res,rej)=>{
-      const r = new FileReader();
-      r.onload = () => res(r.result.split(',')[1]);
-      r.onerror = rej;
-      r.readAsDataURL(blob);
-    });
-  },
+  MAX_FILE: 5 * 1024 * 1024,
   async save(key, blob, meta){
     if(blob.size > this.MAX_FILE) throw new Error('File exceeds 5 MB limit');
-    const used = await this.usedBytes();
-    if(used + blob.size > this.TOTAL_QUOTA) throw new Error('Storage quota exceeded');
-    const b64 = await this._blobToBase64(blob);
-    const res = await fetch('/api/files/'+encodeURIComponent(key), {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({data:b64, meta})
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = async () => {
+            const b64 = reader.result.split(',')[1];
+            try {
+                const res = await fetch('/itr/api/files/' + encodeURIComponent(key), {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ data: b64, meta: meta })
+                });
+                const out = await res.json();
+                if(out.success) resolve(true); else reject(new Error(out.message));
+            } catch(e) { reject(e); }
+        };
+        reader.onerror = e => reject(e);
+        reader.readAsDataURL(blob);
     });
-    if(!res.ok){ const e = await res.json().catch(()=>({})); throw new Error(e.error||'Upload failed'); }
-    return true;
   },
   async get(key){
-    const res = await fetch('/api/files/'+encodeURIComponent(key));
+    const res = await fetch('/itr/api/files/' + encodeURIComponent(key));
     if(!res.ok) return null;
     return await res.blob();
   },
   async getMeta(key){
-    const res = await fetch('/api/files/'+encodeURIComponent(key)+'/meta');
+    const res = await fetch('/itr/api/files/' + encodeURIComponent(key) + '/meta');
     if(!res.ok) return null;
     return await res.json();
   },
   async del(key){
-    await fetch('/api/files/'+encodeURIComponent(key), {method:'DELETE'});
+    await fetch('/itr/api/files/' + encodeURIComponent(key), { method: 'DELETE' });
     return true;
   },
-  async usedBytes(){
-    try{
-      const res = await fetch('/api/files-usage');
-      const data = await res.json();
-      return data.usedBytes || 0;
-    }catch(e){ return 0; }
-  }
+  async usedBytes(){ return 0; }
 };
 
-/* ---------- AUTH ---------- */
-function initData(){
-  if(!KV.get('users')){
-    KV.set('users', [{
-      id:'admin', username:'admin', password:'admin123', name:'Administrator', role:'admin', active:true, created:new Date().toISOString()
-    }]);
-  }
-  if(!KV.get('clients')) KV.set('clients', []);
-  if(!KV.get('allocations')) KV.set('allocations', {}); // {clientId: staffId}
-  if(!KV.get('inward')) KV.set('inward', {});           // {clientId: {received,date,remarks}}
-  if(!KV.get('itrStatus')) KV.set('itrStatus', {});     // {clientId: {fy: {status,pendingWith,fileDate,itrSet,casePaperClosed,locked}}}
-  if(!KV.get('seq')) KV.set('seq', {client:0, staff:0});
+/* ---------- BOOTSTRAP FROM BACKEND ---------- */
+async function loadBackendData() {
+    try {
+        const res = await fetch('/itr/api/kv');
+        const data = await res.json();
+        memCache = data || {};
+        
+        // Ensure core arrays exist
+        if(!memCache['users']) memCache['users'] = [];
+        if(!memCache['clients']) memCache['clients'] = [];
+        if(!memCache['allocations']) memCache['allocations'] = {};
+        if(!memCache['inward']) memCache['inward'] = {};
+        if(!memCache['itrStatus']) memCache['itrStatus'] = {};
+        if(!memCache['seq']) memCache['seq'] = {client:0, staff:0};
+    } catch(e) {
+        console.error("Failed to load backend data", e);
+        toast('Failed to load database. Refresh the page.', 'error');
+    }
 }
-function currentUser(){return KV.get('session')}
+
+/* ---------- AUTH (INJECTED BY FLASK) ---------- */
+function currentUser(){
+  const email = "{{ session.get('email', 'admin@parimanglobal.com') }}";
+  const name = email.split('@')[0];
+  return {
+    id: 'admin', 
+    username: email,
+    name: name.charAt(0).toUpperCase() + name.slice(1),
+    role: 'admin' 
+  };
+}
+
 function isAdmin(){return currentUser()?.role==='admin'}
-function handleLogin(e){
-  e.preventDefault();
-  const u = document.getElementById('loginUser').value.trim().toLowerCase();
-  const p = document.getElementById('loginPass').value;
-  const user = (KV.get('users')||[]).find(x=>x.username.toLowerCase()===u && x.password===p && x.active);
-  if(!user){toast('Invalid credentials or account disabled','error');return}
-  KV.set('session', {id:user.id, username:user.username, name:user.name, role:user.role});
-  bootApp();
-}
+
 function logout(){
-  KV.del('session');
-  document.getElementById('app').style.display='none';
-  document.getElementById('loginScreen').style.display='flex';
-  document.getElementById('loginUser').value='';
-  document.getElementById('loginPass').value='';
+  window.location.href = '/';
 }
 
 /* ---------- TOAST ---------- */
@@ -581,7 +496,7 @@ const ADMIN_MENU = [
   {id:'rpt-itr-report', label:'ITR Report', icon:'📊'},
   {id:'rpt-staff', label:'Staff-wise Report', icon:'👤'},
   {section:'System'},
-  {id:'backup', label:'Backup & Restore', icon:'💾'},
+  {id:'backup', label:'Database Tools', icon:'💾'},
 ];
 const STAFF_MENU = [
   {section:'Overview'},
@@ -617,10 +532,8 @@ function navigate(page){
   document.getElementById('pageBreadcrumb').textContent = (isAdmin()?'Admin':'Staff') + ' · ' + (item?.label||'');
   const fn = ROUTES[page];
   document.getElementById('pageContent').innerHTML = fn ? fn() : '<div class="card"><div class="empty-state">Page not found</div></div>';
-  // post-render hook
   if(POST_RENDER[page]) POST_RENDER[page]();
   window.scrollTo(0,0);
-  updateStorageIndicator();
 }
 
 /* ---------- TABLE SORTING ---------- */
@@ -1570,7 +1483,6 @@ async function uploadItrFile(cid, fy, input){
     await FileDB.save(`itr:${cid}:${fy}`, f, {filename:f.name, type:f.type, clientId:cid, fy});
     toast('Uploaded','success');
     renderUploadGrid();
-    updateStorageIndicator();
   }catch(e){toast(e.message,'error')}
 }
 async function viewItrFile(cid, fy){
@@ -1594,7 +1506,6 @@ async function deleteItrFile(cid, fy){
   await FileDB.del(`itr:${cid}:${fy}`);
   toast('Removed','success');
   renderUploadGrid();
-  updateStorageIndicator();
 }
 function toggleLock(cid, fy){
   const status = KV.get('itrStatus')||{};
@@ -1710,7 +1621,7 @@ function sendWhatsApp(cid, fy){
   if(!c) return;
   const mobile = (c.mobile||'').replace(/[^0-9]/g,'');
   const number = mobile.length===10 ? '91'+mobile : mobile;
-  const msg = `Dear ${c.name},\n\nGreetings from Pariman Global Consulting Consulting.\n\nPlease find attached your Income Tax Return Set for FY ${fy} for your records.\n\nFor any clarifications, kindly contact our office.\n\nRegards,\nPariman Global Consulting Consulting\nGrowth · Governance · Global Standards`;
+  const msg = `Dear ${c.name},\n\nGreetings from Pariman Global Consulting.\n\nPlease find attached your Income Tax Return Set for FY ${fy} for your records.\n\nFor any clarifications, kindly contact our office.\n\nRegards,\nPariman Global Consulting\nGrowth · Governance · Global Standards`;
   window.open(`https://wa.me/${number}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 function sendEmail(cid, fy){
@@ -1718,7 +1629,7 @@ function sendEmail(cid, fy){
   const c = clients.find(x=>x.id===cid);
   if(!c) return;
   const subject = `ITR Set for FY ${fy} — ${c.name} (${c.fileNo})`;
-  const body = `Dear ${c.name},\n\nGreetings from Pariman Global Consulting Consulting.\n\nPlease find attached your Income Tax Return Set for FY ${fy} for your records.\n\nKindly review and let us know if you have any queries.\n\nNote: Please attach the downloaded ITR PDF to this email before sending.\n\nWarm regards,\nPariman Global Consulting Consulting\nEmail: info@pariman.co.in\nGrowth · Governance · Global Standards`;
+  const body = `Dear ${c.name},\n\nGreetings from Pariman Global Consulting.\n\nPlease find attached your Income Tax Return Set for FY ${fy} for your records.\n\nKindly review and let us know if you have any queries.\n\nNote: Please attach the downloaded ITR PDF to this email before sending.\n\nWarm regards,\nPariman Global Consulting\nEmail: info@pariman.co.in\nGrowth · Governance · Global Standards`;
   const mailto = `mailto:${encodeURIComponent(c.email)}?cc=${encodeURIComponent('info@pariman.co.in')}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   window.location.href = mailto;
 }
@@ -1729,7 +1640,7 @@ function reportHeader(title){
     <div class="print-header">
       <div style="transform:scale(.6);transform-origin:left center;margin-right:-30px">${LOGO_SVG}</div>
       <div>
-        <div class="brand-text" style="font-size:22px">Pariman Global Consulting Consulting</div>
+        <div class="brand-text" style="font-size:22px">Pariman Global Consulting</div>
         <div class="brand-tagline">Growth · Governance · Global Standards</div>
         <div style="margin-top:8px;font-size:14px;font-weight:700">${esc(title)}</div>
         <div style="font-size:11px;color:var(--text-muted)">Generated: ${new Date().toLocaleString('en-IN')}</div>
@@ -2028,104 +1939,22 @@ function exportTableExcel(tableId, name){
 ROUTES.backup = () => {
   if(!isAdmin()) return adminOnly();
   return `
-    <div class="alert alert-warning">
-      <strong>Important:</strong> All data is stored in this browser. To safeguard against accidental loss (clearing browser data, switching computers), export a backup regularly.
-      Uploaded ITR PDFs are stored separately and are <strong>not</strong> included in the JSON backup — keep the original PDFs in your filesystem too.
-    </div>
-    <div class="card">
-      <div class="card-header"><div class="card-title">Backup & Restore</div></div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
-        <button class="btn btn-primary" onclick="exportBackup()">⤓ Export Backup (JSON)</button>
-        <label class="btn btn-warning" style="cursor:pointer">📥 Import Backup<input type="file" hidden accept=".json" onchange="importBackup(this)"></label>
-        <button class="btn btn-danger" onclick="resetAll()">⚠ Reset All Data</button>
-      </div>
-      <div style="font-size:12px;color:var(--text-muted);line-height:1.7">
-        <strong>What's in the JSON backup:</strong> client master, staff master, allocations, inward records, ITR status entries, and user accounts.<br>
-        <strong>What's NOT in the JSON backup:</strong> uploaded ITR PDF files (stored in IndexedDB; keep original files separately).
-      </div>
-    </div>
-    <div class="card" style="margin-top:14px">
-      <div class="card-header"><div class="card-title">Storage Usage</div></div>
-      <div id="storageDetails" style="font-size:13px;line-height:1.9"></div>
+    <div class="alert alert-info">
+      <strong>Database Tools</strong><br>
+      Data is now securely stored in the PostgreSQL database.<br>
+      Data Imports and Exports are managed via the Master Portal.
     </div>
   `;
 };
-POST_RENDER.backup = async () => {
-  const used = await FileDB.usedBytes();
-  const lsBytes = KV.size();
-  document.getElementById('storageDetails').innerHTML = `
-    <div>Master & status data: <strong>${fmtBytes(lsBytes)}</strong></div>
-    <div>Uploaded files (IndexedDB): <strong>${fmtBytes(used)}</strong> / 10 GB</div>
-    <div>Combined: <strong>${fmtBytes(lsBytes+used)}</strong></div>
-  `;
-};
-
-function exportBackup(){
-  const data = {
-    version: 1,
-    exported: new Date().toISOString(),
-    users: KV.get('users')||[],
-    clients: KV.get('clients')||[],
-    allocations: KV.get('allocations')||{},
-    inward: KV.get('inward')||{},
-    itrStatus: KV.get('itrStatus')||{},
-    seq: KV.get('seq')||{},
-  };
-  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `pariman_backup_${new Date().toISOString().slice(0,10)}.json`;
-  a.click();
-  toast('Backup exported','success');
-}
-async function importBackup(input){
-  const f = input.files[0]; if(!f) return;
-  try{
-    const text = await f.text();
-    const data = JSON.parse(text);
-    if(!data.version){toast('Invalid backup file','error');return}
-    if(!confirm('This will REPLACE all current data with the backup. Continue?')) return;
-    KV.set('users', data.users||[]);
-    KV.set('clients', data.clients||[]);
-    KV.set('allocations', data.allocations||{});
-    KV.set('inward', data.inward||{});
-    KV.set('itrStatus', data.itrStatus||{});
-    KV.set('seq', data.seq||{client:0,staff:0});
-    toast('Backup restored','success');
-    setTimeout(()=>location.reload(), 800);
-  }catch(e){toast('Failed to restore: '+e.message,'error')}
-}
-function resetAll(){
-  const c = prompt('Type RESET to wipe all data:');
-  if(c!=='RESET') return;
-  ['users','clients','allocations','inward','itrStatus','seq','session'].forEach(k=>KV.del(k));
-  // also clear server-stored files
-  fetch('/api/files-all', {method:'DELETE'}).catch(()=>{});
-  toast('All data wiped','success');
-  setTimeout(()=>location.reload(), 800);
-}
 
 /* ---------- ADMIN ONLY GUARD ---------- */
 function adminOnly(){
   return `<div class="card"><div class="empty-state"><div class="empty-state-icon">🔒</div><div>This page is available to administrators only.</div></div></div>`;
 }
 
-/* ---------- STORAGE INDICATOR ---------- */
-async function updateStorageIndicator(){
-  try{
-    const used = await FileDB.usedBytes();
-    const lsBytes = KV.size();
-    const total = used + lsBytes;
-    const el = document.getElementById('storageIndicator');
-    if(el) el.textContent = `Storage: ${fmtBytes(total)} / 10 GB`;
-  }catch(e){}
-}
-
 /* ---------- BOOT ---------- */
 function bootApp(){
-  const u = currentUser(); if(!u){logout();return}
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('app').style.display = 'flex';
+  const u = currentUser(); 
   document.getElementById('userName').textContent = u.name;
   document.getElementById('userRole').textContent = u.role==='admin'?'Administrator':'Staff';
   document.getElementById('userAvatar').textContent = u.name.charAt(0).toUpperCase();
@@ -2136,10 +1965,9 @@ function bootApp(){
 
 /* ---------- INIT ---------- */
 document.addEventListener('DOMContentLoaded', async () => {
-  document.getElementById('loginLogoSvg').innerHTML = LOGO_SVG;
-  await KV.preload();
-  initData();
-  if(currentUser()) bootApp();
+  document.getElementById('loginLogoSvg') && (document.getElementById('loginLogoSvg').innerHTML = LOGO_SVG);
+  await loadBackendData();
+  bootApp();
 });
 </script>
 </body>
